@@ -1,4 +1,7 @@
 import type { Candidate, Economics, SiteData } from "./solar-model";
+import type { RoofLayout } from "./solar.server";
+
+export type { RoofLayout };
 
 export type BuildingBox = {
   sw: { latitude: number; longitude: number };
@@ -19,5 +22,6 @@ export type AnalysisResult = {
   site: SiteData;
   economics: Economics;
   buildingBox: BuildingBox | null;
+  roofLayout: RoofLayout | null;
   warnings: string[];
 };

@@ -11,7 +11,7 @@ import {
   type Economics,
   type SiteData,
 } from "./solar-model";
-import { aiChat, buildSiteData, haversine, reverseGeocode } from "./solar.server";
+import { aiChat, buildSiteData, haversine, reverseGeocode, roofLayoutFrom } from "./solar.server";
 
 export type { AnalysisResult } from "./advisor-types";
 import type { AnalysisResult } from "./advisor-types";
@@ -37,6 +37,7 @@ export async function previewScore(lat: number, lng: number, countryCode: string
     distanceToBuilding: distance,
     buildingCenter: insights?.center ?? null,
     buildingBox: insights?.boundingBox ?? null,
+    roofLayout: roofLayoutFrom(insights),
   };
 }
 
@@ -193,6 +194,7 @@ export async function runAnalysis(input: {
     site,
     economics: eco,
     buildingBox: insights?.boundingBox ?? null,
+    roofLayout: roofLayoutFrom(insights),
     warnings,
   };
 }
