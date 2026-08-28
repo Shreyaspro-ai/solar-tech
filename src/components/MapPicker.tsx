@@ -306,7 +306,12 @@ export function MapPicker({
       ) : preview?.hasBuilding ? (
         <p className="flex items-start gap-2 rounded-xl border border-border bg-card/70 p-3 text-sm text-muted-foreground">
           <MapPin className="mt-0.5 size-4 shrink-0 text-sun" aria-hidden />
-          {t("buildingFound")}
+          <span>
+            {t("buildingFound")}
+            {preview.roofLayout
+              ? ` Roof detected — room for about ${preview.roofLayout.maxPanels} panels; the amber tiles show where they would sit.`
+              : ""}
+          </span>
         </p>
       ) : null}
     </div>
