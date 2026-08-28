@@ -37,17 +37,16 @@ export function LocationStep({
     onSuccess: (res) => {
       if (!res.verified) {
         setFormatError(res.reason === "not_found" ? t("notFound") : t("unverified"));
-        setTab("map");
         return;
       }
       setFormatError(null);
-      setCenter({ lat: res.lat, lng: res.lng });
+      const coords = { lat: res.lat, lng: res.lng };
+      setCenter(coords);
       setAddress(res.address ?? null);
-      setTab("map");
+      setPin(coords);
     },
     onError: () => {
       setFormatError(t("unverified"));
-      setTab("map");
     },
   });
 
@@ -109,7 +108,12 @@ export function LocationStep({
                 <Input
                   id="postal"
                   value={postal}
-                  onChange={(e) => setPostal(e.target.value)}
+                  onChange={(e) => {
+                    setPostal(e.target.value);
+                    setPin(null);
+                    setPreview(null);
+                    setFormatError(null);
+                  }}
                   placeholder={country.postalExample ?? ""}
                   inputMode="text"
                   autoComplete="postal-code"
@@ -121,7 +125,18 @@ export function LocationStep({
               <p className="text-xs text-muted-foreground">
                 {t("pincodeHint", { example: country.postalExample ?? "—" })}
               </p>
-              {formatError ? <p className="text-sm text-destructive">{formatError}</p> : null}
+              {formatError ? (
+                <p className="text-sm text-destructive">
+                  {formatError}{" "}
+                  <button
+                    type="button"
+                    className="underline underline-offset-2"
+                    onClick={() => setTab("map")}
+                  >
+                    {t("tabMap")}
+                  </button>
+                </p>
+              ) : null}
             </form>
           ) : (
             <p className="text-center text-sm text-muted-foreground">
@@ -131,11 +146,6 @@ export function LocationStep({
         </TabsContent>
 
         <TabsContent value="map" className="mt-5">
-          {formatError ? (
-            <p className="mb-3 rounded-xl border border-border bg-card/70 p-3 text-sm text-muted-foreground">
-              {formatError}
-            </p>
-          ) : null}
           <MapPicker
             center={center}
             pin={pin}
