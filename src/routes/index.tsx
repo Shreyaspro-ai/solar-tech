@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { ArrowLeft, RotateCcw, Sun } from "lucide-react";
+import { ArrowLeft, Compass, PiggyBank, RotateCcw, Satellite, Sun } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { AnalysisLoading } from "@/components/AnalysisLoading";
