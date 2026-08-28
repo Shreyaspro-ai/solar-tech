@@ -202,7 +202,11 @@ export function buildCandidates(site: SiteData, eco: Economics) {
   const configs = [pick("budget"), pick("balanced"), pick("max")].filter(Boolean) as Candidate[];
   const recommended = configs.slice().sort((a, b) => b.score - a.score)[0];
 
-  return { candidates: all.slice(0, 10), configs, recommendedLabel: recommended.label };
+  return {
+    candidates: all.slice(0, 10),
+    configs,
+    recommendedLabel: recommended ? recommended.label : ("balanced" as Candidate["label"]),
+  };
 }
 
 /** Overall 0-100 suitability score for the location. */
@@ -225,5 +229,5 @@ export function scoreBand(score: number): "low" | "mid" | "high" {
 
 export function compassLabel(azimuth: number): string {
   const dirs = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
-  return dirs[Math.round((((azimuth % 360) + 360) % 360) / 45) % 8];
+  return dirs[Math.round((((azimuth % 360) + 360) % 360) / 45) % 8] ?? "N";
 }
