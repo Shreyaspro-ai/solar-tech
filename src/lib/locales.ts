@@ -28,6 +28,17 @@ export const en = {
   tagline: "An independent, AI-powered second opinion on rooftop solar.",
   neutralBadge: "Independent advice · not a sales tool",
   honesty: "Estimates only. We show our confidence instead of hiding it.",
+  heroEyebrow: "SDG 7 · Affordable & clean energy",
+  chip1Title: "Satellite roof data",
+  chip1Body: "Real rooftop geometry and sunshine hours for your exact address.",
+  chip2Title: "Tilt & orientation",
+  chip2Body: "The angle and direction that squeeze the most out of your roof.",
+  chip3Title: "Honest payback",
+  chip3Body: "Local tariffs and install costs — no installer optimism.",
+  countryHint: "We use it for local electricity tariffs and install costs.",
+  countryCount: "{n} countries",
+  noCountryMatch: "No country matches that search.",
+
 
   stepCountry: "Country",
   stepLocation: "Location",
