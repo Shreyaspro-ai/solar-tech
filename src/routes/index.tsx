@@ -208,32 +208,33 @@ function Advisor() {
       <main className="mx-auto w-full max-w-5xl flex-1 px-4 pb-28 pt-10">
         {step === "country" ? (
           <div className="animate-fade-up space-y-10">
-            <div className="mx-auto max-w-2xl text-center">
-              <span className="inline-flex items-center gap-2 rounded-full border border-sun/40 bg-sun/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-sun-foreground">
-                <Sun className="size-3.5 animate-sun-pulse" aria-hidden />
-                {t("heroEyebrow")}
-              </span>
-              <h2 className="text-display mt-5 text-4xl leading-[1.05] sm:text-5xl">
-                <span className="text-gradient-energy">{t("tagline")}</span>
-              </h2>
-              <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">{t("honesty")}</p>
-            </div>
+            <HeroVideo>
+              <div className="mx-auto max-w-2xl text-center">
+                <span className="inline-flex items-center gap-2 rounded-full border border-sun/60 bg-sun/25 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] on-media backdrop-blur-sm">
+                  <Sun className="size-3.5 animate-sun-pulse" aria-hidden />
+                  {t("heroEyebrow")}
+                </span>
+                <h2 className="text-display mt-5 text-4xl leading-[1.05] on-media sm:text-5xl">{t("tagline")}</h2>
+                <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed on-media-muted">{t("honesty")}</p>
+              </div>
 
-            <ul className="grid gap-3 sm:grid-cols-3">
-              {[
-                { icon: Satellite, title: t("chip1Title"), body: t("chip1Body"), tone: "bg-gradient-sky text-sky-foreground" },
-                { icon: Compass, title: t("chip2Title"), body: t("chip2Body"), tone: "bg-gradient-sun text-sun-foreground" },
-                { icon: PiggyBank, title: t("chip3Title"), body: t("chip3Body"), tone: "bg-gradient-forest text-forest-foreground" },
-              ].map(({ icon: Icon, title, body, tone }) => (
-                <li key={title} className="surface-card hover-lift p-4">
-                  <span className={cn("grid size-9 place-items-center rounded-lg shadow-soft", tone)}>
-                    <Icon className="size-4.5" aria-hidden />
-                  </span>
-                  <h3 className="mt-3 text-sm font-semibold">{title}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{body}</p>
-                </li>
-              ))}
-            </ul>
+              <ul className="mt-10 grid gap-3 sm:grid-cols-3">
+                {[
+                  { icon: Satellite, title: t("chip1Title"), body: t("chip1Body"), tone: "bg-gradient-sky text-sky-foreground" },
+                  { icon: Compass, title: t("chip2Title"), body: t("chip2Body"), tone: "bg-gradient-sun text-sun-foreground" },
+                  { icon: PiggyBank, title: t("chip3Title"), body: t("chip3Body"), tone: "bg-gradient-forest text-forest-foreground" },
+                ].map(({ icon: Icon, title, body, tone }) => (
+                  <li key={title} className="surface-glass hover-lift p-4">
+                    <span className={cn("grid size-9 place-items-center rounded-lg shadow-soft", tone)}>
+                      <Icon className="size-4.5" aria-hidden />
+                    </span>
+                    <h3 className="mt-3 text-sm font-semibold on-media">{title}</h3>
+                    <p className="mt-1 text-xs leading-relaxed on-media-muted">{body}</p>
+                  </li>
+                ))}
+              </ul>
+            </HeroVideo>
+
 
             <CountryStep
               value={country}
