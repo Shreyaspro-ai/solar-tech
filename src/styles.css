@@ -197,13 +197,13 @@
   }
 }
 
-@utility text-accent {
+@utility font-brand {
   font-family: var(--font-accent);
   font-weight: 600;
   letter-spacing: 0.06em;
 }
 
-@utility text-numeric {
+@utility font-figures {
   font-family: var(--font-accent);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
