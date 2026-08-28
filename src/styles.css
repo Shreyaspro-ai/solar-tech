@@ -387,3 +387,57 @@
   border-radius: 999px;
   border: 1px solid oklch(0 0 0 / 0.18);
 }
+
+/* ---- Video hero -------------------------------------------------------- */
+
+/* Darkening scrim above the background video: keeps foreground copy legible
+   in both themes and fades into the page background at the bottom. */
+@utility hero-video-scrim {
+  background-image:
+    linear-gradient(
+      to bottom,
+      oklch(0.16 0.03 60 / 0.62) 0%,
+      oklch(0.16 0.03 60 / 0.5) 45%,
+      color-mix(in oklab, var(--color-background) 88%, transparent) 88%,
+      var(--color-background) 100%
+    ),
+    radial-gradient(50rem 24rem at 50% 30%, oklch(0.86 0.15 88 / 0.18), transparent 72%);
+}
+
+/* Text sitting on top of media: fixed light palette, never theme-dependent. */
+@utility on-media {
+  color: oklch(0.98 0.01 90);
+  text-shadow: 0 1px 18px oklch(0.16 0.03 60 / 0.55);
+}
+
+@utility on-media-muted {
+  color: oklch(0.93 0.02 88 / 0.86);
+  text-shadow: 0 1px 14px oklch(0.16 0.03 60 / 0.5);
+}
+
+/* Frosted card variant for chips placed over the video. */
+@utility surface-glass {
+  border-radius: var(--radius);
+  border: 1px solid oklch(1 0 0 / 0.24);
+  background-color: oklch(0.22 0.03 60 / 0.42);
+  backdrop-filter: blur(12px) saturate(1.3);
+  -webkit-backdrop-filter: blur(12px) saturate(1.3);
+  box-shadow: 0 18px 40px -24px oklch(0.16 0.03 60 / 0.8);
+}
+
+.calm .hero-video-scrim {
+  background-image:
+    linear-gradient(
+      to bottom,
+      oklch(0.16 0.02 60 / 0.7) 0%,
+      oklch(0.16 0.02 60 / 0.58) 45%,
+      color-mix(in oklab, var(--color-background) 90%, transparent) 88%,
+      var(--color-background) 100%
+    );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-video-el {
+    display: none;
+  }
+}
