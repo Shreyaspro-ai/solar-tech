@@ -254,20 +254,23 @@ function Advisor() {
         {step === "analysis" ? <AnalysisLoading stage={stage} /> : null}
 
         {step === "result" && result && activeConfig ? (
-          <div className="space-y-10">
-            <ScoreDisplay
-              score={result.score}
-              explanation={result.explanation}
-              quality={result.site.dataQuality}
-            />
-
-            {result.warnings.length ? (
-              <ul className="mx-auto max-w-2xl space-y-1 text-center text-xs text-muted-foreground">
-                {result.warnings.map((w) => (
-                  <li key={w}>{w in DICTS.en ? t(w as keyof Dict) : w}</li>
-                ))}
-              </ul>
-            ) : null}
+          <div className="animate-fade-up space-y-10">
+            <div className="surface-card overflow-hidden">
+              <div className="bg-cream/50 px-5 py-8 sm:px-8">
+                <ScoreDisplay
+                  score={result.score}
+                  explanation={result.explanation}
+                  quality={result.site.dataQuality}
+                />
+              </div>
+              {result.warnings.length ? (
+                <ul className="space-y-1 border-t border-border/70 px-5 py-3 text-center text-xs text-muted-foreground">
+                  {result.warnings.map((w) => (
+                    <li key={w}>{w in DICTS.en ? t(w as keyof Dict) : w}</li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
 
             <ConfigCards
               configs={result.configs}
@@ -286,7 +289,7 @@ function Advisor() {
             />
 
             <div className="flex justify-center">
-              <Button variant="secondary" className="gap-2" onClick={restart}>
+              <Button variant="secondary" className="gap-2 rounded-full px-6" onClick={restart}>
                 <RotateCcw className="size-4" aria-hidden /> {t("startOver")}
               </Button>
             </div>
@@ -294,9 +297,13 @@ function Advisor() {
         ) : null}
       </main>
 
-      <footer className="mx-auto max-w-5xl px-4 pb-8 text-center text-xs text-muted-foreground">
-        {t("honesty")}
+      <footer className="border-t border-border/60 py-6">
+        <div className="mx-auto grid max-w-5xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 text-xs text-muted-foreground">
+          <p className="min-w-0">{t("honesty")}</p>
+          <p className="shrink-0 font-medium">{t("neutralBadge")}</p>
+        </div>
       </footer>
+
 
       <ChatWidget sessionId={result?.sessionId ?? null} context={chatContext} />
     </div>
