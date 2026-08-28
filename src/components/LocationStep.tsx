@@ -32,15 +32,25 @@ export function LocationStep({
   const verify = useServerFn(verifyPostalCode);
   const previewFn = useServerFn(getPinPreview);
 
+  const [approx, setApprox] = useState(false);
+
   const verifyMutation = useMutation({
     mutationFn: (code: string) => verify({ data: { countryCode: country.code, postalCode: code } }),
     onSuccess: (res) => {
       if (!res.verified) {
-        setFormatError(res.reason === "not_found" ? t("notFound") : t("unverified"));
+        setFormatError(
+          res.reason === "imprecise"
+            ? t("imprecise")
+            : res.reason === "not_found"
+              ? t("notFound")
+              : t("unverified"),
+        );
+        setPin(null);
         return;
       }
       setFormatError(null);
       const coords = { lat: res.lat, lng: res.lng };
+      setApprox(res.precision !== "rooftop");
       setCenter(coords);
       setAddress(res.address ?? null);
       setPin(coords);
@@ -49,6 +59,7 @@ export function LocationStep({
       setFormatError(t("unverified"));
     },
   });
+
 
   const previewMutation = useMutation({
     mutationFn: (coords: { lat: number; lng: number }) =>
@@ -113,6 +124,7 @@ export function LocationStep({
                   onChange={(e) => {
                     setPostal(e.target.value);
                     setPin(null);
+                    setApprox(false);
                     setPreview(null);
                     setFormatError(null);
                   }}
@@ -153,7 +165,10 @@ export function LocationStep({
           <MapPicker
             center={center}
             pin={pin}
-            onPin={(coords) => setPin(coords)}
+            onPin={(coords) => {
+              setApprox(false);
+              setPin(coords);
+            }}
             preview={preview}
             previewLoading={previewMutation.isPending}
             previewError={previewError}
@@ -182,6 +197,14 @@ export function LocationStep({
               </dd>
             </div>
           </dl>
+          {approx ? (
+            <p className="mt-3 rounded-lg border border-[oklch(0.75_0.15_70/0.5)] bg-[oklch(0.75_0.15_70/0.15)] p-3 text-xs on-media">
+              {t("approxWarn")}{" "}
+              <button type="button" className="underline underline-offset-2" onClick={() => setTab("map")}>
+                {t("tabMap")}
+              </button>
+            </p>
+          ) : null}
           <div className="mt-4 flex flex-wrap items-center gap-3">
             {preview ? <ConfidenceBadge quality={preview.dataQuality} /> : null}
             <Button className="ms-auto" onClick={() => onConfirm({ ...pin, address })}>

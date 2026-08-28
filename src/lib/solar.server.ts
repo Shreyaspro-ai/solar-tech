@@ -61,15 +61,46 @@ async function gatewayGet(path: string, timeoutMs = 9000): Promise<{ status: num
   }
 }
 
+export type GeoPrecision = "rooftop" | "street" | "locality" | "area";
+
 export type GeoResult = {
   lat: number;
   lng: number;
   address: string;
   partial: boolean;
+  precision: GeoPrecision;
 };
 
+const AREA_TYPES = new Set([
+  "country",
+  "administrative_area_level_1",
+  "administrative_area_level_2",
+  "administrative_area_level_3",
+  "continent",
+]);
+const LOCALITY_TYPES = new Set([
+  "locality",
+  "postal_town",
+  "sublocality",
+  "postal_code_prefix",
+  "neighborhood",
+  "administrative_area_level_4",
+]);
+
+function precisionOf(types: string[], locationType?: string): GeoPrecision {
+  if (types.some((t) => AREA_TYPES.has(t))) return "area";
+  if (locationType === "ROOFTOP" || types.includes("premise") || types.includes("street_address")) {
+    return "rooftop";
+  }
+  if (types.includes("postal_code") || types.includes("route") || locationType === "RANGE_INTERPOLATED") {
+    return "street";
+  }
+  if (types.some((t) => LOCALITY_TYPES.has(t))) return "locality";
+  return locationType === "APPROXIMATE" ? "locality" : "street";
+}
+
 export async function geocode(query: string, region?: string): Promise<GeoResult | Fail> {
-  const key = `geo:${region ?? ""}:${query.toLowerCase()}`;
+  const key = `geo:v2:${region ?? ""}:${query.toLowerCase()}`;
   try {
     return await cached<GeoResult | Fail>(key, async () => {
       const { status, body } = await gatewayGet(
@@ -83,23 +114,34 @@ export async function geocode(query: string, region?: string): Promise<GeoResult
         results?: Array<{
           formatted_address: string;
           partial_match?: boolean;
-          geometry: { location: { lat: number; lng: number } };
+          types?: string[];
+          geometry: { location: { lat: number; lng: number }; location_type?: string };
         }>;
       };
-      const hit = data.results?.[0];
-      if (data.status !== "OK" || !hit) {
+      // Prefer the most precise candidate rather than blindly taking the first.
+      const ranked = (data.results ?? [])
+        .map((r) => ({ r, p: precisionOf(r.types ?? [], r.geometry.location_type) }))
+        .sort(
+          (a, b) =>
+            ["rooftop", "street", "locality", "area"].indexOf(a.p) -
+            ["rooftop", "street", "locality", "area"].indexOf(b.p),
+        );
+      const best = ranked[0];
+      if (data.status !== "OK" || !best) {
         return { ok: false, reason: "not_found", message: "No match for that code" };
       }
       return {
-        lat: hit.geometry.location.lat,
-        lng: hit.geometry.location.lng,
-        address: hit.formatted_address,
-        partial: Boolean(hit.partial_match),
+        lat: best.r.geometry.location.lat,
+        lng: best.r.geometry.location.lng,
+        address: best.r.formatted_address,
+        partial: Boolean(best.r.partial_match),
+        precision: best.p,
       };
     });
   } catch (e) {
     const aborted = e instanceof Error && e.name === "AbortError";
     return { ok: false, reason: aborted ? "timeout" : "error", message: String(e) };
+
   }
 }
 

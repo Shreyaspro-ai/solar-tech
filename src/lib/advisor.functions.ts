@@ -17,13 +17,19 @@ export const verifyPostalCode = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const res = await geocode(`${data.postalCode}, ${data.countryCode}`, data.countryCode);
     if ("ok" in res) return { verified: false as const, reason: res.reason };
+    // A country/region centroid is not a usable rooftop location — never present it as one.
+    if (res.precision === "area") {
+      return { verified: false as const, reason: "imprecise" as const };
+    }
     return {
       verified: true as const,
       lat: res.lat,
       lng: res.lng,
       address: res.address,
       partial: res.partial,
+      precision: res.precision,
     };
+
   });
 
 export const getPinPreview = createServerFn({ method: "POST" })

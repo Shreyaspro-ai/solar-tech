@@ -58,7 +58,12 @@ export const en = {
   invalidFormat: "That doesn't look like a valid code for this country.",
   notFound: "We couldn't find that code. Try the map instead.",
   unverified: "Couldn't verify right now — continue on the map.",
+  imprecise:
+    "This code only resolves to the country, not a street or roof. Pick the exact building on the map instead.",
+  approxWarn:
+    "This is an approximate area centre, not your roof. Drag the pin onto your building on the map for accurate results.",
   verifyBtn: "Find location",
+
 
   mapZoomHint: "Zoom in to building level to drop a pin.",
   mapDropHint: "Tap your roof to drop a pin.",

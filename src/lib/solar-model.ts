@@ -129,7 +129,10 @@ export function evaluate(
     costUsd: Math.round(cost),
     annualSavingsUsd: Math.round(savings),
     paybackYears: Math.round(clamp(payback, 0.5, 99) * 10) / 10,
-    lifetimeSavingsUsd: Math.round(savings * 25 * 0.92 - cost),
+    // 25-year net: output degradation (~0.92 avg), minus upfront cost and a
+    // realistic lifetime O&M + one inverter replacement (~15% of system cost).
+    lifetimeSavingsUsd: Math.round(savings * 25 * 0.92 - cost * 1.15),
+
     co2TonsPerYear: Math.round(((annual / 1000) * site.carbonOffsetKgPerMwh) / 10) / 100,
     efficiency,
     score: 0,
