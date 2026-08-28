@@ -14,7 +14,87 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      api_cache: {
+        Row: {
+          cache_key: string
+          created_at: string
+          payload: Json
+        }
+        Insert: {
+          cache_key: string
+          created_at?: string
+          payload: Json
+        }
+        Update: {
+          cache_key?: string
+          created_at?: string
+          payload?: Json
+        }
+        Relationships: []
+      }
+      chat_messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          role: string
+          session_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          role: string
+          session_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          role?: string
+          session_id?: string
+        }
+        Relationships: []
+      }
+      solar_sessions: {
+        Row: {
+          address: string | null
+          country_code: string | null
+          created_at: string
+          data_quality: string | null
+          id: string
+          language: string | null
+          lat: number | null
+          lng: number | null
+          result: Json | null
+          score: number | null
+        }
+        Insert: {
+          address?: string | null
+          country_code?: string | null
+          created_at?: string
+          data_quality?: string | null
+          id?: string
+          language?: string | null
+          lat?: number | null
+          lng?: number | null
+          result?: Json | null
+          score?: number | null
+        }
+        Update: {
+          address?: string | null
+          country_code?: string | null
+          created_at?: string
+          data_quality?: string | null
+          id?: string
+          language?: string | null
+          lat?: number | null
+          lng?: number | null
+          result?: Json | null
+          score?: number | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
