@@ -11,11 +11,14 @@ import { ConfigCards } from "@/components/ConfigCards";
 import { CountryStep } from "@/components/CountryStep";
 import { DetailPanel } from "@/components/DetailPanel";
 import { LanguageSelector } from "@/components/LanguageSelector";
+import { AppearanceControls } from "@/components/AppearanceControls";
+import { ConfidenceLegend } from "@/components/ConfidenceLegend";
 import { LocationStep } from "@/components/LocationStep";
 import { ScoreDisplay } from "@/components/ScoreDisplay";
 import { analyzeLocation } from "@/lib/advisor.functions";
 import type { AnalysisResult } from "@/lib/advisor-types";
 import type { Country } from "@/lib/countries";
+import { AppearanceProvider } from "@/lib/appearance";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { DICTS, type Dict } from "@/lib/locales";
 import type { Candidate } from "@/lib/solar-model";
@@ -24,13 +27,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Smart Solar Placement Advisor — Is rooftop solar worth it?" },
+      { title: "Solar Tech — Is rooftop solar worth it for your roof?" },
       {
         name: "description",
         content:
           "An independent, AI-powered second opinion on rooftop solar: get a suitability score, the best tilt and orientation, costs and payback for your exact roof.",
       },
-      { property: "og:title", content: "Smart Solar Placement Advisor" },
+      { property: "og:title", content: "Solar Tech" },
       {
         property: "og:description",
         content:
@@ -45,9 +48,11 @@ export const Route = createFileRoute("/")({
 
 function Page() {
   return (
-    <I18nProvider>
-      <Advisor />
-    </I18nProvider>
+    <AppearanceProvider>
+      <I18nProvider>
+        <Advisor />
+      </I18nProvider>
+    </AppearanceProvider>
   );
 }
 
@@ -146,7 +151,10 @@ function Advisor() {
               <span className="block truncate text-[11px] text-muted-foreground">{t("neutralBadge")}</span>
             </span>
           </button>
-          <LanguageSelector />
+          <div className="flex items-center gap-1">
+            <AppearanceControls />
+            <LanguageSelector />
+          </div>
         </div>
 
         <nav aria-label="Progress" className="mx-auto max-w-5xl px-4 pb-3">
@@ -228,6 +236,41 @@ function Advisor() {
                 setStep("location");
               }}
             />
+
+            <section className="space-y-4">
+              <h2 className="text-display text-center text-2xl sm:text-3xl">{t("howTitle")}</h2>
+              <ol className="grid gap-4 sm:grid-cols-3">
+                {[
+                  { title: t("how1Title"), body: t("how1Body") },
+                  { title: t("how2Title"), body: t("how2Body") },
+                  { title: t("how3Title"), body: t("how3Body") },
+                ].map((s2) => (
+                  <li key={s2.title} className="surface-card hover-lift p-5">
+                    <h3 className="text-sm font-semibold">{s2.title}</h3>
+                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{s2.body}</p>
+                  </li>
+                ))}
+              </ol>
+            </section>
+
+            <ConfidenceLegend />
+
+            <section className="space-y-4">
+              <h2 className="text-display text-center text-2xl sm:text-3xl">{t("faqTitle")}</h2>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {[
+                  { q: t("faq1Q"), a: t("faq1A") },
+                  { q: t("faq2Q"), a: t("faq2A") },
+                  { q: t("faq3Q"), a: t("faq3A") },
+                  { q: t("faq4Q"), a: t("faq4A") },
+                ].map((f) => (
+                  <div key={f.q} className="surface-card p-5">
+                    <h3 className="text-sm font-semibold">{f.q}</h3>
+                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{f.a}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
           </div>
         ) : null}
 
@@ -284,6 +327,8 @@ function Advisor() {
               onSelect={setActiveLabel}
               economics={result.economics}
             />
+
+            <ConfidenceLegend />
 
             <DetailPanel
               key={activeConfig.label}
