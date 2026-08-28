@@ -137,7 +137,13 @@ function Advisor() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-background bg-hero-glow">
+    <div
+      className={cn(
+        "relative flex min-h-screen flex-col",
+        step === "country" ? "bg-transparent" : "bg-background bg-hero-glow",
+      )}
+    >
+      {step === "country" ? <HeroVideo /> : null}
       <header className="sticky top-0 z-40 border-b border-border/60 glass-bar">
         <div className="mx-auto grid max-w-5xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-3">
           <button
@@ -247,7 +253,7 @@ function Advisor() {
             />
 
             <section className="space-y-4">
-              <h2 className="text-display text-center text-2xl sm:text-3xl">{t("howTitle")}</h2>
+              <h2 className="text-display text-center text-2xl on-media sm:text-3xl">{t("howTitle")}</h2>
               <ol className="grid gap-4 sm:grid-cols-3">
                 {[
                   { title: t("how1Title"), body: t("how1Body") },
@@ -266,7 +272,7 @@ function Advisor() {
             <ConfidenceLegend />
 
             <section className="space-y-4">
-              <h2 className="text-display text-center text-2xl sm:text-3xl">{t("faqTitle")}</h2>
+              <h2 className="text-display text-center text-2xl on-media sm:text-3xl">{t("faqTitle")}</h2>
               <div className="grid gap-3 sm:grid-cols-2">
                 {[
                   { q: t("faq1Q"), a: t("faq1A") },
