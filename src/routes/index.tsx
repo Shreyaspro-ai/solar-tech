@@ -144,7 +144,7 @@ function Advisor() {
       )}
     >
       <HeroVideo />
-      <header className="sticky top-0 z-40 border-b border-border/60 glass-bar">
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[oklch(0.24_0.03_65/0.82)] text-white backdrop-blur-xl">
         <div className="mx-auto grid max-w-5xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-3">
           <button
             type="button"
@@ -161,7 +161,7 @@ function Advisor() {
             />
             <span className="min-w-0">
               <span className="block truncate text-sm font-semibold sm:text-base">{t("appTitle")}</span>
-              <span className="block truncate text-[11px] text-muted-foreground">{t("neutralBadge")}</span>
+              <span className="block truncate text-[11px] text-white/60">{t("neutralBadge")}</span>
             </span>
           </button>
           <div className="flex items-center gap-1">
@@ -184,7 +184,7 @@ function Advisor() {
                         ? "bg-forest text-forest-foreground"
                         : current
                           ? "bg-gradient-sun text-sun-foreground shadow-glow"
-                          : "bg-muted text-muted-foreground",
+                          : "bg-white/10 text-white/60",
                     )}
                   >
                     {done ? "✓" : i + 1}
@@ -192,7 +192,7 @@ function Advisor() {
                   <span
                     className={cn(
                       "hidden truncate text-[11px] font-semibold uppercase tracking-wider sm:inline",
-                      current ? "text-foreground" : "text-muted-foreground",
+                      current ? "text-white" : "text-white/55",
                     )}
                   >
                     {s.label}
@@ -201,7 +201,7 @@ function Advisor() {
                     <span
                       className={cn(
                         "h-px flex-1 rounded-full transition-colors",
-                        i < stepIndex ? "bg-forest/50" : "bg-border",
+                        i < stepIndex ? "bg-forest/60" : "bg-white/15",
                       )}
                     />
                   ) : null}
@@ -397,8 +397,8 @@ function Advisor() {
         ) : null}
       </main>
 
-      <footer className="border-t border-border/60 py-6">
-        <div className="mx-auto grid max-w-5xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 text-xs text-muted-foreground">
+      <footer className="border-t border-white/10 bg-[oklch(0.24_0.03_65/0.55)] py-6 backdrop-blur-xl">
+        <div className="mx-auto grid max-w-5xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 text-xs text-white/65">
           <p className="min-w-0">{t("honesty")}</p>
           <p className="shrink-0 font-medium">{t("neutralBadge")}</p>
         </div>
