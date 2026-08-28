@@ -2,6 +2,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Crosshair, Loader2, MapPin, TriangleAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
+import { loadMaps, type MapsNS } from "@/lib/maps-loader";
+import { panelPath, rankedPanels, segmentAzimuth } from "@/lib/panel-geometry";
+import type { RoofLayout } from "@/lib/advisor-types";
 import { scoreBand } from "@/lib/solar-model";
 import { cn } from "@/lib/utils";
 
@@ -14,36 +17,8 @@ export type PinPreview = {
   distanceToBuilding: number | null;
   buildingCenter: { latitude: number; longitude: number } | null;
   buildingBox: { sw: { latitude: number; longitude: number }; ne: { latitude: number; longitude: number } } | null;
+  roofLayout: RoofLayout | null;
 };
-
-type MapsNS = typeof globalThis & { google?: any; __ssaMapReady?: boolean };
-
-let loaderPromise: Promise<void> | null = null;
-
-function loadMaps(): Promise<void> {
-  if (typeof window === "undefined") return Promise.resolve();
-  const w = window as MapsNS;
-  if (w.google?.maps) return Promise.resolve();
-  if (loaderPromise) return loaderPromise;
-
-  const key = import.meta.env["VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_KEY"] as string | undefined;
-  const channel = import.meta.env["VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_TRACKING_ID"] as string | undefined;
-  loaderPromise = new Promise<void>((resolve, reject) => {
-    if (!key) {
-      reject(new Error("Maps key missing"));
-      return;
-    }
-    (window as any).__ssaInitMap = () => resolve();
-    const s = document.createElement("script");
-    s.src = `https://maps.googleapis.com/maps/api/js?key=${key}&loading=async&callback=__ssaInitMap${
-      channel ? `&channel=${channel}` : ""
-    }`;
-    s.async = true;
-    s.onerror = () => reject(new Error("Maps failed to load"));
-    document.head.appendChild(s);
-  });
-  return loaderPromise;
-}
 
 export function MapPicker({
   center,
@@ -67,6 +42,7 @@ export function MapPicker({
   const mapRef = useRef<any>(null);
   const markerRef = useRef<any>(null);
   const outlineRef = useRef<any>(null);
+  const panelShapesRef = useRef<any[]>([]);
   const rayRef = useRef<any>(null);
   const [ready, setReady] = useState(false);
   const [zoom, setZoom] = useState(17);
@@ -175,6 +151,43 @@ export function MapPicker({
       fillOpacity: 0.16,
       clickable: false,
     });
+  }, [ready, preview]);
+
+  // detected panel placement overlay
+  useEffect(() => {
+    if (!ready || !mapRef.current) return;
+    const g = (window as MapsNS).google;
+    panelShapesRef.current.forEach((s) => s.setMap(null));
+    panelShapesRef.current = [];
+    const layout = preview?.roofLayout;
+    if (!layout) return;
+    rankedPanels(layout)
+      .slice(0, 160)
+      .forEach((p, i) => {
+        panelShapesRef.current.push(
+          new g.maps.Polygon({
+            map: mapRef.current,
+            paths: panelPath(
+              { lat: p.lat, lng: p.lng },
+              layout.panelWidthMeters,
+              layout.panelHeightMeters,
+              p.portrait,
+              segmentAzimuth(layout, p.segmentIndex),
+            ),
+            strokeColor: "#1c2b22",
+            strokeOpacity: 0.7,
+            strokeWeight: 0.8,
+            fillColor: i < 24 ? "#f5b301" : "#f5b301",
+            fillOpacity: i < 24 ? 0.9 : 0.45,
+            clickable: false,
+            zIndex: 2,
+          }),
+        );
+      });
+    return () => {
+      panelShapesRef.current.forEach((s) => s.setMap(null));
+      panelShapesRef.current = [];
+    };
   }, [ready, preview]);
 
   // orientation ray for the applied configuration
@@ -293,7 +306,12 @@ export function MapPicker({
       ) : preview?.hasBuilding ? (
         <p className="flex items-start gap-2 rounded-xl border border-border bg-card/70 p-3 text-sm text-muted-foreground">
           <MapPin className="mt-0.5 size-4 shrink-0 text-sun" aria-hidden />
-          {t("buildingFound")}
+          <span>
+            {t("buildingFound")}
+            {preview.roofLayout
+              ? ` Roof detected — room for about ${preview.roofLayout.maxPanels} panels; the amber tiles show where they would sit.`
+              : ""}
+          </span>
         </p>
       ) : null}
     </div>

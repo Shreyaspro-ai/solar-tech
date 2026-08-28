@@ -119,44 +119,157 @@ export async function reverseGeocode(lat: number, lng: number): Promise<string |
   }
 }
 
+type LatLng = { latitude: number; longitude: number };
+type Box = { sw: LatLng; ne: LatLng };
+
 export type BuildingInsights = {
-  center: { latitude: number; longitude: number };
-  boundingBox?: { sw: { latitude: number; longitude: number }; ne: { latitude: number; longitude: number } };
-  imageryQuality?: string;
+  center: LatLng;
+  boundingBox?: Box | undefined;
+  imageryQuality?: string | undefined;
+  imageryDate?: { year?: number | undefined; month?: number | undefined; day?: number | undefined } | undefined;
   solarPotential?: {
-    maxArrayPanelsCount?: number;
-    maxArrayAreaMeters2?: number;
-    maxSunshineHoursPerYear?: number;
-    carbonOffsetFactorKgPerMwh?: number;
-    panelCapacityWatts?: number;
-    wholeRoofStats?: { areaMeters2?: number; sunshineQuantiles?: number[] };
+    maxArrayPanelsCount?: number | undefined;
+    maxArrayAreaMeters2?: number | undefined;
+    maxSunshineHoursPerYear?: number | undefined;
+    carbonOffsetFactorKgPerMwh?: number | undefined;
+    panelCapacityWatts?: number | undefined;
+    panelHeightMeters?: number | undefined;
+    panelWidthMeters?: number | undefined;
+    wholeRoofStats?: { areaMeters2?: number | undefined; sunshineQuantiles?: number[] | undefined } | undefined;
     roofSegmentStats?: Array<{
       pitchDegrees: number;
       azimuthDegrees: number;
       stats: { areaMeters2: number; sunshineQuantiles: number[] };
-    }>;
-    solarPanelConfigs?: Array<{ panelsCount: number; yearlyEnergyDcKwh: number }>;
-  };
+      center?: LatLng | undefined;
+      boundingBox?: Box | undefined;
+    }> | undefined;
+    solarPanelConfigs?: Array<{ panelsCount: number; yearlyEnergyDcKwh: number }> | undefined;
+    solarPanels?: Array<{
+      center: LatLng;
+      orientation?: "LANDSCAPE" | "PORTRAIT" | undefined;
+      yearlyEnergyDcKwh: number;
+      segmentIndex?: number | undefined;
+    }> | undefined;
+  } | undefined;
 };
 
+const MAX_STORED_PANELS = 260;
+
+/** The raw payload is multi-megabyte; keep only what the UI and model need. */
+function trimInsights(raw: BuildingInsights): BuildingInsights {
+  const sp = raw.solarPotential;
+  if (!sp) return { center: raw.center, boundingBox: raw.boundingBox, imageryQuality: raw.imageryQuality };
+  const panels = (sp.solarPanels ?? [])
+    .slice(0, MAX_STORED_PANELS)
+    .map((p) => ({
+      center: {
+        latitude: Number(p.center.latitude.toFixed(7)),
+        longitude: Number(p.center.longitude.toFixed(7)),
+      },
+      orientation: p.orientation,
+      yearlyEnergyDcKwh: Math.round(p.yearlyEnergyDcKwh),
+      segmentIndex: p.segmentIndex,
+    }));
+  const configs = sp.solarPanelConfigs ?? [];
+  return {
+    center: raw.center,
+    boundingBox: raw.boundingBox,
+    imageryQuality: raw.imageryQuality,
+    imageryDate: raw.imageryDate,
+    solarPotential: {
+      maxArrayPanelsCount: sp.maxArrayPanelsCount,
+      maxArrayAreaMeters2: sp.maxArrayAreaMeters2,
+      maxSunshineHoursPerYear: sp.maxSunshineHoursPerYear,
+      carbonOffsetFactorKgPerMwh: sp.carbonOffsetFactorKgPerMwh,
+      panelCapacityWatts: sp.panelCapacityWatts,
+      panelHeightMeters: sp.panelHeightMeters,
+      panelWidthMeters: sp.panelWidthMeters,
+      wholeRoofStats: sp.wholeRoofStats,
+      roofSegmentStats: (sp.roofSegmentStats ?? []).slice(0, 12),
+      solarPanelConfigs: configs.length > 40 ? configs.filter((_, i) => i % 4 === 0).concat(configs.at(-1)!) : configs,
+      solarPanels: panels,
+    },
+  };
+}
+
 export async function buildingInsights(lat: number, lng: number): Promise<BuildingInsights | Fail> {
-  const key = `solar:${lat.toFixed(5)},${lng.toFixed(5)}`;
+  const key = `solar2:${lat.toFixed(5)},${lng.toFixed(5)}`;
   try {
     return await cached<BuildingInsights | Fail>(key, async () => {
       const { status, body } = await gatewayGet(
         `/solar/v1/buildingInsights:findClosest?location.latitude=${lat.toFixed(
           6,
         )}&location.longitude=${lng.toFixed(6)}`,
-        10000,
+        12000,
       );
       if (status === 404) return { ok: false, reason: "not_found", message: "No building found nearby" };
       if (status !== 200) return { ok: false, reason: "error", message: `Solar API error (${status})` };
-      return body as BuildingInsights;
+      return trimInsights(body as BuildingInsights);
     });
   } catch (e) {
     const aborted = e instanceof Error && e.name === "AbortError";
     return { ok: false, reason: aborted ? "timeout" : "error", message: String(e) };
   }
+}
+
+export type RoofLayout = {
+  center: LatLng;
+  box: Box | null;
+  panelWidthMeters: number;
+  panelHeightMeters: number;
+  panelCapacityWatts: number;
+  imageryQuality: string | null;
+  imageryYear: number | null;
+  maxPanels: number;
+  segments: Array<{
+    index: number;
+    azimuthDegrees: number;
+    pitchDegrees: number;
+    areaMeters2: number;
+    sunshineHours: number;
+    center: LatLng | null;
+    box: Box | null;
+  }>;
+  panels: Array<{
+    lat: number;
+    lng: number;
+    portrait: boolean;
+    kwh: number;
+    segmentIndex: number;
+  }>;
+};
+
+/** Panel-level placement geometry for the map overlay. Null when no building was detected. */
+export function roofLayoutFrom(insights: BuildingInsights | null): RoofLayout | null {
+  const sp = insights?.solarPotential;
+  if (!insights || !sp || !(sp.solarPanels?.length ?? 0)) return null;
+  const segments = (sp.roofSegmentStats ?? []).map((s, index) => ({
+    index,
+    azimuthDegrees: s.azimuthDegrees,
+    pitchDegrees: s.pitchDegrees,
+    areaMeters2: Math.round(s.stats.areaMeters2),
+    sunshineHours: Math.round(median(s.stats.sunshineQuantiles ?? [])),
+    center: s.center ?? null,
+    box: s.boundingBox ?? null,
+  }));
+  return {
+    center: insights.center,
+    box: insights.boundingBox ?? null,
+    panelWidthMeters: sp.panelWidthMeters ?? 1.045,
+    panelHeightMeters: sp.panelHeightMeters ?? 1.879,
+    panelCapacityWatts: sp.panelCapacityWatts ?? 400,
+    imageryQuality: insights.imageryQuality ?? null,
+    imageryYear: insights.imageryDate?.year ?? null,
+    maxPanels: sp.maxArrayPanelsCount ?? sp.solarPanels!.length,
+    segments,
+    panels: sp.solarPanels!.map((p) => ({
+      lat: p.center.latitude,
+      lng: p.center.longitude,
+      portrait: p.orientation === "PORTRAIT",
+      kwh: Math.round(p.yearlyEnergyDcKwh),
+      segmentIndex: p.segmentIndex ?? 0,
+    })),
+  };
 }
 
 /** Distance in metres between two coordinates. */
