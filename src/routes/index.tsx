@@ -155,9 +155,9 @@ function Advisor() {
             <img
               src={markUrl}
               alt="Solar Tech"
-              width={40}
-              height={40}
-              className="size-10 shrink-0 object-contain"
+              width={56}
+              height={56}
+              className="size-14 shrink-0 object-contain"
             />
             <span className="min-w-0">
               <span className="block truncate text-sm font-semibold sm:text-base">{t("appTitle")}</span>
