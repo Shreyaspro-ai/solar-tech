@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
+import logoUrl from "@/assets/solar-tech-logo.png";
 import { ArrowLeft, Compass, PiggyBank, RotateCcw, Satellite, Sun } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -143,9 +144,13 @@ function Advisor() {
             className="flex min-w-0 items-center gap-3 text-start"
             aria-label={t("appTitle")}
           >
-            <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-gradient-sun text-sun-foreground shadow-glow">
-              <Sun className="size-5" aria-hidden />
-            </span>
+            <img
+              src={logoUrl}
+              alt="Solar Tech"
+              width={40}
+              height={40}
+              className="size-10 shrink-0 rounded-xl bg-card object-contain p-1 shadow-soft"
+            />
             <span className="min-w-0">
               <span className="block truncate text-sm font-semibold sm:text-base">{t("appTitle")}</span>
               <span className="block truncate text-[11px] text-muted-foreground">{t("neutralBadge")}</span>
