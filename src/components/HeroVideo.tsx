@@ -6,7 +6,7 @@ import heroVideo from "@/assets/hero-solar.mp4.asset.json";
  */
 export function HeroVideo({ children }: { children: React.ReactNode }) {
   return (
-    <section className="relative isolate -mx-4 -mt-10 overflow-hidden px-4 pb-14 pt-16 sm:-mx-6 sm:px-6 lg:-mx-[calc((100vw-64rem)/2)] lg:px-[calc((100vw-64rem)/2)]">
+    <section className="relative isolate -mt-10 mb-[-1.5rem] left-1/2 w-screen -translate-x-1/2 overflow-hidden px-4 pb-16 pt-16">
       <video
         className="hero-video-el absolute inset-0 -z-20 size-full object-cover"
         src={heroVideo.url}
