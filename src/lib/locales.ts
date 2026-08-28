@@ -24,7 +24,7 @@ export const LANGUAGES = [
 export type LangCode = (typeof LANGUAGES)[number]["code"];
 
 export const en = {
-  appTitle: "Smart Solar Placement Advisor",
+  appTitle: "Solar Tech",
   tagline: "An independent, AI-powered second opinion on rooftop solar.",
   neutralBadge: "Independent advice · not a sales tool",
   honesty: "Estimates only. We show our confidence instead of hiding it.",
@@ -129,6 +129,77 @@ export const en = {
   languageLabel: "Language",
   errorTitle: "Something went wrong",
   errorBody: "We couldn't finish the analysis. Your flow isn't lost — try again.",
+
+  // appearance controls
+  displaySettings: "Display",
+  themeLabel: "Theme",
+  themeLight: "Light",
+  themeDark: "Dark",
+  paletteLabel: "Colour intensity",
+  paletteVibrant: "Vibrant",
+  paletteCalm: "Calm",
+  cbLabel: "Colour-blind friendly",
+  cbHint: "Blue/orange palette with shapes and labels, not colour alone.",
+
+  // confidence legend
+  legendTitle: "How to read the colours",
+  legendBody: "Every colour on this page maps to a number, not a mood. Here is exactly what each one means.",
+  legendScoreTitle: "Suitability score",
+  legendHighLabel: "71-100 · Strong fit",
+  legendHighBody: "Good sun, little shading and a payback usually under 8 years.",
+  legendMidLabel: "41-70 · Workable",
+  legendMidBody: "Solar can pay off, but sizing, shading or tariffs decide it. Compare configurations carefully.",
+  legendLowLabel: "0-40 · Weak fit",
+  legendLowBody: "Low yield, heavy shading or a payback beyond the panel warranty. Efficiency first may beat solar.",
+  legendQualityTitle: "Data quality badge",
+  legendQualityHighBody: "Satellite rooftop scan available: real roof planes, pitch and sunshine hours.",
+  legendQualityMediumBody: "No rooftop scan; climate-model yield for your coordinates (PVWatts-class data).",
+  legendQualityLowBody: "Regional estimate only. Treat the numbers as a direction, not a quote.",
+
+  // solutions / configurations
+  solutionsTitle: "Best value-for-money solutions",
+  solutionsBody: "Three complete solutions for this exact location, ranked by what you get back per unit spent. Prices in local currency with USD alongside.",
+  bestValue: "Best value for money",
+  whatsInside: "What's inside this solution",
+  hideInside: "Hide details",
+  perkPanelsTitle: "Hardware",
+  perkPanelsBody: "{panels} panels at {watt} W, {kw} kW total on your usable roof area.",
+  perkOrientTitle: "Placement",
+  perkOrientBody: "Tilt {tilt}° facing {dir} ({az}°) — tuned to this latitude and roof plane.",
+  perkYieldTitle: "Yield",
+  perkYieldBody: "About {kwh} kWh a year, roughly {monthly} kWh in an average month.",
+  perkMoneyTitle: "Money",
+  perkMoneyBody: "Saves about {savings} a year at local tariffs; net {lifetime} over 25 years.",
+  perkGreenTitle: "Climate",
+  perkGreenBody: "Avoids about {co2} tonnes of CO₂ every year.",
+  costLocal: "Local price",
+  costUsdLabel: "In USD",
+  perKwh: "Cost per kWh produced (25 yrs)",
+  valueScore: "Value score",
+
+  // chart key
+  chartKeyTitle: "Key",
+  keyMonthly: "Monthly output (kWh)",
+  keyAverage: "Monthly average",
+  keyBest: "Best month",
+
+  // trust / how it works
+  howTitle: "How the estimate is built",
+  how1Title: "1 · Locate the roof",
+  how1Body: "Your pincode or map pin is snapped to a building footprint so the model uses your roof, not your city.",
+  how2Title: "2 · Model the sun",
+  how2Body: "Satellite sunshine hours where available, public climate data elsewhere — and we tell you which one you got.",
+  how3Title: "3 · Price it honestly",
+  how3Body: "Local tariffs and installed costs, no subsidies assumed, payback shown even when it is bad news.",
+  faqTitle: "Straight answers",
+  faq1Q: "Are these prices quotes?",
+  faq1A: "No. They are indicative installed costs for your country, meant to tell you whether a real quote is reasonable.",
+  faq2Q: "Why is my score not 100?",
+  faq2A: "The score blends yield, shading, payback and roof size. Even a perfect roof in a cloudy, cheap-electricity market scores mid.",
+  faq3Q: "Do you sell my data or pass it to installers?",
+  faq3A: "No. There is no lead form here, and nothing is shared with installers.",
+  faq4Q: "What exchange rate do you use?",
+  faq4A: "Indicative fixed rates for display only — for example 1 USD = 96 INR. Local price and USD are always shown together.",
 };
 
 export type Dict = typeof en;
