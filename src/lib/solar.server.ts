@@ -126,7 +126,7 @@ export type BuildingInsights = {
   center: LatLng;
   boundingBox?: Box | undefined;
   imageryQuality?: string | undefined;
-  imageryDate?: { year?: number | undefined; month?: number | undefined; day?: number } | undefined;
+  imageryDate?: { year?: number | undefined; month?: number | undefined; day?: number | undefined } | undefined;
   solarPotential?: {
     maxArrayPanelsCount?: number | undefined;
     maxArrayAreaMeters2?: number | undefined;
@@ -135,21 +135,21 @@ export type BuildingInsights = {
     panelCapacityWatts?: number | undefined;
     panelHeightMeters?: number | undefined;
     panelWidthMeters?: number | undefined;
-    wholeRoofStats?: { areaMeters2?: number | undefined; sunshineQuantiles?: number[] } | undefined;
+    wholeRoofStats?: { areaMeters2?: number | undefined; sunshineQuantiles?: number[] | undefined } | undefined;
     roofSegmentStats?: Array<{
-      pitchDegrees: number | undefined;
+      pitchDegrees: number;
       azimuthDegrees: number;
       stats: { areaMeters2: number; sunshineQuantiles: number[] };
       center?: LatLng | undefined;
       boundingBox?: Box | undefined;
-    }>;
-    solarPanelConfigs?: Array<{ panelsCount: number | undefined; yearlyEnergyDcKwh: number }>;
+    }> | undefined;
+    solarPanelConfigs?: Array<{ panelsCount: number; yearlyEnergyDcKwh: number }> | undefined;
     solarPanels?: Array<{
-      center: LatLng | undefined;
+      center: LatLng;
       orientation?: "LANDSCAPE" | "PORTRAIT" | undefined;
       yearlyEnergyDcKwh: number;
       segmentIndex?: number | undefined;
-    }>;
+    }> | undefined;
   };
 };
 
