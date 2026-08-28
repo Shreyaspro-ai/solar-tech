@@ -16,6 +16,7 @@ import { AppearanceControls } from "@/components/AppearanceControls";
 import { ConfidenceLegend } from "@/components/ConfidenceLegend";
 import { LocationStep } from "@/components/LocationStep";
 import { ScoreDisplay } from "@/components/ScoreDisplay";
+import { PanelLayoutMap } from "@/components/PanelLayoutMap";
 import { analyzeLocation } from "@/lib/advisor.functions";
 import type { AnalysisResult } from "@/lib/advisor-types";
 import type { Country } from "@/lib/countries";
@@ -258,6 +259,19 @@ function Advisor() {
               </ol>
             </section>
 
+            {result.roofLayout ? (
+              <section className="surface-card space-y-4 p-5 sm:p-6">
+                <div>
+                  <h2 className="text-display text-xl">Where the panels go on your roof</h2>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    Detected from satellite imagery of this building. Amber tiles are the panels in the{" "}
+                    {activeConfig.label} setup; pale tiles are roof space you could still use later.
+                  </p>
+                </div>
+                <PanelLayoutMap layout={result.roofLayout} systemKw={activeConfig.systemKw} />
+              </section>
+            ) : null}
+
             <ConfidenceLegend />
 
             <section className="space-y-4">
@@ -332,6 +346,19 @@ function Advisor() {
               onSelect={setActiveLabel}
               economics={result.economics}
             />
+
+            {result.roofLayout ? (
+              <section className="surface-card space-y-4 p-5 sm:p-6">
+                <div>
+                  <h2 className="text-display text-xl">Where the panels go on your roof</h2>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    Detected from satellite imagery of this building. Amber tiles are the panels in the{" "}
+                    {activeConfig.label} setup; pale tiles are roof space you could still use later.
+                  </p>
+                </div>
+                <PanelLayoutMap layout={result.roofLayout} systemKw={activeConfig.systemKw} />
+              </section>
+            ) : null}
 
             <ConfidenceLegend />
 
