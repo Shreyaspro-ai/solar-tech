@@ -61,3 +61,23 @@ export function usdOnly(usd: number, lang: string, compact = false): string {
     return `$${Math.round(usd).toLocaleString()}`;
   }
 }
+
+/** Small per-unit amounts (e.g. cost per kWh) need decimals on both sides. */
+export function dualSmallMoney(usd: number, eco: Economics, lang: string): string {
+  const fmt = (v: number, cur: string, digits: number) => {
+    try {
+      return new Intl.NumberFormat(lang, {
+        style: "currency",
+        currency: cur,
+        minimumFractionDigits: digits,
+        maximumFractionDigits: digits,
+      }).format(v);
+    } catch {
+      return `${v.toFixed(digits)} ${cur}`;
+    }
+  };
+  const local = eco.fx * usd;
+  const localStr = fmt(local, eco.currency, local < 10 ? 2 : 1);
+  if (eco.currency === "USD" || eco.fx === 1) return localStr;
+  return `${localStr} (${fmt(usd, "USD", 3)})`;
+}

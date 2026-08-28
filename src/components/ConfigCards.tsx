@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Check, ChevronDown, Coins, Compass, Leaf, PanelsTopLeft, Sparkles, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
-import { dualMoney, money, num, usdOnly } from "@/lib/format";
+import { dualMoney, dualSmallMoney, money, num, usdOnly } from "@/lib/format";
 import { compassLabel, type Candidate, type Economics } from "@/lib/solar-model";
 import { cn } from "@/lib/utils";
 import { TypewriterText } from "./TypewriterText";
@@ -129,7 +129,7 @@ export function ConfigCards({
                 <Row label={t("payback")} value={`${c.paybackYears} ${t("years")}`} />
                 <Row
                   label={t("perKwh")}
-                  value={perKwh(c) === Infinity ? "—" : dualMoney(Math.round(perKwh(c) * 100) / 100, economics, lang)}
+                  value={perKwh(c) === Infinity ? "—" : dualSmallMoney(perKwh(c), economics, lang)}
                 />
               </dl>
 
