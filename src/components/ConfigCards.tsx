@@ -30,7 +30,7 @@ export function ConfigCards({
 
   return (
     <section className="space-y-4">
-      <h2 className="text-center text-xl font-semibold">{t("configsTitle")}</h2>
+      <h2 className="text-display text-center text-2xl">{t("configsTitle")}</h2>
       <div className="grid gap-4 sm:grid-cols-3">
         {configs.map((c) => {
           const isRec = c.label === recommendedLabel;
@@ -39,8 +39,8 @@ export function ConfigCards({
             <article
               key={c.label}
               className={cn(
-                "relative flex flex-col gap-4 rounded-2xl border bg-card p-5 shadow-soft transition-all",
-                isRec ? "border-sun" : "border-border",
+                "relative flex flex-col gap-4 rounded-2xl border bg-card p-5 shadow-soft transition-all hover-lift",
+                isRec ? "border-sun/70 bg-accent/20" : "border-border",
                 isActive && "ring-2 ring-sun ring-offset-2 ring-offset-background",
               )}
             >
@@ -96,7 +96,7 @@ export function ConfigCards({
               <Button
                 variant={isActive ? "default" : "secondary"}
                 size="sm"
-                className="mt-auto gap-2"
+                className="mt-auto gap-2 rounded-full"
                 onClick={() => onSelect(c.label)}
                 aria-pressed={isActive}
               >
