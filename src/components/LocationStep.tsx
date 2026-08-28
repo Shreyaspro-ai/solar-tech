@@ -32,15 +32,25 @@ export function LocationStep({
   const verify = useServerFn(verifyPostalCode);
   const previewFn = useServerFn(getPinPreview);
 
+  const [approx, setApprox] = useState(false);
+
   const verifyMutation = useMutation({
     mutationFn: (code: string) => verify({ data: { countryCode: country.code, postalCode: code } }),
     onSuccess: (res) => {
       if (!res.verified) {
-        setFormatError(res.reason === "not_found" ? t("notFound") : t("unverified"));
+        setFormatError(
+          res.reason === "imprecise"
+            ? t("imprecise")
+            : res.reason === "not_found"
+              ? t("notFound")
+              : t("unverified"),
+        );
+        setPin(null);
         return;
       }
       setFormatError(null);
       const coords = { lat: res.lat, lng: res.lng };
+      setApprox(res.precision !== "rooftop");
       setCenter(coords);
       setAddress(res.address ?? null);
       setPin(coords);
@@ -49,6 +59,7 @@ export function LocationStep({
       setFormatError(t("unverified"));
     },
   });
+
 
   const previewMutation = useMutation({
     mutationFn: (coords: { lat: number; lng: number }) =>
