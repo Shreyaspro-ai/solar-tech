@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useState, type ReactNode
 
 export type ThemeMode = "light" | "dark";
 export type Intensity = "vibrant" | "calm";
+export type Backdrop = "cinematic" | "classic";
 
 type AppearanceValue = {
   theme: ThemeMode;
@@ -12,6 +13,8 @@ type AppearanceValue = {
   setColorBlind: (v: boolean) => void;
   highContrast: boolean;
   setHighContrast: (v: boolean) => void;
+  backdrop: Backdrop;
+  setBackdrop: (v: Backdrop) => void;
 };
 
 const AppearanceContext = createContext<AppearanceValue | null>(null);
@@ -22,6 +25,7 @@ export function AppearanceProvider({ children }: { children: ReactNode }) {
   const [intensity, setIntensityState] = useState<Intensity>("vibrant");
   const [colorBlind, setColorBlindState] = useState(false);
   const [highContrast, setHighContrastState] = useState(false);
+  const [backdrop, setBackdropState] = useState<Backdrop>("cinematic");
 
   useEffect(() => {
     try {
@@ -32,6 +36,7 @@ export function AppearanceProvider({ children }: { children: ReactNode }) {
         if (p.intensity === "calm" || p.intensity === "vibrant") setIntensityState(p.intensity);
         if (typeof p.colorBlind === "boolean") setColorBlindState(p.colorBlind);
         if (typeof p.highContrast === "boolean") setHighContrastState(p.highContrast);
+        if (p.backdrop === "classic" || p.backdrop === "cinematic") setBackdropState(p.backdrop);
       }
     } catch {
       /* ignore */
@@ -44,12 +49,13 @@ export function AppearanceProvider({ children }: { children: ReactNode }) {
     el.classList.toggle("calm", intensity === "calm");
     el.classList.toggle("cb-safe", colorBlind);
     el.classList.toggle("hc", highContrast);
+    el.classList.toggle("classic-ui", backdrop === "classic");
     try {
-      window.localStorage.setItem(KEY, JSON.stringify({ theme, intensity, colorBlind, highContrast }));
+      window.localStorage.setItem(KEY, JSON.stringify({ theme, intensity, colorBlind, highContrast, backdrop }));
     } catch {
       /* ignore */
     }
-  }, [theme, intensity, colorBlind, highContrast]);
+  }, [theme, intensity, colorBlind, highContrast, backdrop]);
 
   const value = useMemo(
     () => ({
@@ -61,8 +67,10 @@ export function AppearanceProvider({ children }: { children: ReactNode }) {
       setColorBlind: setColorBlindState,
       highContrast,
       setHighContrast: setHighContrastState,
+      backdrop,
+      setBackdrop: setBackdropState,
     }),
-    [theme, intensity, colorBlind, highContrast],
+    [theme, intensity, colorBlind, highContrast, backdrop],
   );
 
   return <AppearanceContext.Provider value={value}>{children}</AppearanceContext.Provider>;
