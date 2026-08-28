@@ -193,6 +193,14 @@ export function LocationStep({
               </dd>
             </div>
           </dl>
+          {approx ? (
+            <p className="mt-3 rounded-lg border border-[oklch(0.75_0.15_70/0.5)] bg-[oklch(0.75_0.15_70/0.15)] p-3 text-xs on-media">
+              {t("approxWarn")}{" "}
+              <button type="button" className="underline underline-offset-2" onClick={() => setTab("map")}>
+                {t("tabMap")}
+              </button>
+            </p>
+          ) : null}
           <div className="mt-4 flex flex-wrap items-center gap-3">
             {preview ? <ConfidenceBadge quality={preview.dataQuality} /> : null}
             <Button className="ms-auto" onClick={() => onConfirm({ ...pin, address })}>

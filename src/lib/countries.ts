@@ -97,7 +97,7 @@ export const COUNTRIES: Country[] = [
   { code: "AL", name: "Albania", postal: /^\d{4}$/, postalExample: "1001", tariff: 0.1, costPerKw: 1000, currency: "ALL", fx: 90 },
   { code: "GE", name: "Georgia", postal: /^\d{4}$/, postalExample: "0105", tariff: 0.07, costPerKw: 950, currency: "GEL", fx: 2.7 },
   { code: "AM", name: "Armenia", postal: /^\d{4}$/, postalExample: "0010", tariff: 0.11, costPerKw: 950, currency: "AMD", fx: 385 },
-  { code: "AZ", name: "Azerbaijan", postal: /^(AZ)?\s?\d{4}$/i, postalExample: "AZ1000", tariff: 0.06, costPerKw: 950, currency: "AZN", fx: 1.7 },
+  { code: "AZ", name: "Azerbaijan", postal: /^(AZ)?\s?\d{4}$/i, postalExample: "AZ1000", tariff: 0.049, costPerKw: 1000, currency: "AZN", fx: 1.7 },
   { code: "KZ", name: "Kazakhstan", postal: /^\d{6}$/, postalExample: "010000", tariff: 0.05, costPerKw: 900, currency: "KZT", fx: 520, lang: "ru" },
   { code: "UZ", name: "Uzbekistan", postal: /^\d{6}$/, postalExample: "100000", tariff: 0.03, costPerKw: 850, currency: "UZS", fx: 12600, lang: "ru" },
   { code: "IQ", name: "Iraq", postal: /^\d{5}$/, postalExample: "10001", tariff: 0.03, costPerKw: 900, currency: "IQD", fx: 1310, lang: "ar" },
