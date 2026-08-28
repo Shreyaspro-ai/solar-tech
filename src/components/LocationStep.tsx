@@ -146,11 +146,6 @@ export function LocationStep({
         </TabsContent>
 
         <TabsContent value="map" className="mt-5">
-          {formatError ? (
-            <p className="mb-3 rounded-xl border border-border bg-card/70 p-3 text-sm text-muted-foreground">
-              {formatError}
-            </p>
-          ) : null}
           <MapPicker
             center={center}
             pin={pin}
