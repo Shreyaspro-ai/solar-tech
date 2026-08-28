@@ -209,7 +209,7 @@ function Advisor() {
       <main className="mx-auto w-full max-w-5xl flex-1 px-4 pb-28 pt-10">
         {step === "country" ? (
           <div className="animate-fade-up space-y-10">
-            <HeroVideo>
+            <section className="pb-2 pt-6">
               <div className="mx-auto max-w-2xl text-center">
                 <span className="inline-flex items-center gap-2 rounded-full border border-sun/60 bg-sun/25 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] on-media backdrop-blur-sm">
                   <Sun className="size-3.5 animate-sun-pulse" aria-hidden />
@@ -234,7 +234,8 @@ function Advisor() {
                   </li>
                 ))}
               </ul>
-            </HeroVideo>
+            </section>
+
 
 
             <CountryStep
