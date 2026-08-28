@@ -1,10 +1,10 @@
 import { useMemo, useState } from "react";
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, Cell, Defs, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { useI18n } from "@/lib/i18n";
-import { money, monthLabels, num } from "@/lib/format";
+import { dualMoney, money, monthLabels, num, usdOnly } from "@/lib/format";
 import { compassLabel, evaluate, type Candidate, type Economics, type SiteData } from "@/lib/solar-model";
 import { ConfidenceBadge } from "./ConfidenceBadge";
 
@@ -52,6 +52,12 @@ export function DetailPanel({
           {money(live.annualSavingsUsd, economics, lang)} {t("perYear")} · {t("payback")} {live.paybackYears}{" "}
           {t("years")}
         </p>
+        {economics.currency !== "USD" ? (
+          <p className="text-xs text-muted-foreground">
+            {t("costUsdLabel")}: {usdOnly(live.lifetimeSavingsUsd, lang, true)} · {usdOnly(live.annualSavingsUsd, lang)}{" "}
+            {t("perYear")}
+          </p>
+        ) : null}
         <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
           <ConfidenceBadge quality={site.dataQuality} />
           <span className="rounded-full border border-border bg-background px-2.5 py-1 text-xs text-muted-foreground">
