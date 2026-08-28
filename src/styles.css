@@ -209,6 +209,15 @@
   box-shadow: var(--shadow-soft);
 }
 
+/* Warm dark glass panel — readable over the full-page hero video */
+@utility surface-panel {
+  background: color-mix(in oklab, oklch(0.26 0.035 65) 78%, transparent);
+  border: 1px solid oklch(1 0 0 / 0.14);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(16px);
+}
+
 @utility bg-gradient-sun {
   background-image: var(--gradient-sun);
 }

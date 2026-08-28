@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import markUrl from "@/assets/solar-tech-mark.png";
-import { ArrowLeft, Compass, PiggyBank, RotateCcw, Satellite, Sun } from "lucide-react";
+import { ArrowLeft, Compass, Globe2, PiggyBank, RotateCcw, Satellite, Sun } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { AnalysisLoading } from "@/components/AnalysisLoading";
@@ -140,11 +140,11 @@ function Advisor() {
     <div
       className={cn(
         "relative flex min-h-screen flex-col",
-        step === "country" ? "bg-transparent" : "bg-background bg-hero-glow",
+        "bg-transparent",
       )}
     >
-      {step === "country" ? <HeroVideo /> : null}
-      <header className="sticky top-0 z-40 border-b border-border/60 glass-bar">
+      <HeroVideo />
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[oklch(0.24_0.03_65/0.82)] text-white backdrop-blur-xl">
         <div className="mx-auto grid max-w-5xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-3">
           <button
             type="button"
@@ -161,7 +161,7 @@ function Advisor() {
             />
             <span className="min-w-0">
               <span className="block truncate text-sm font-semibold sm:text-base">{t("appTitle")}</span>
-              <span className="block truncate text-[11px] text-muted-foreground">{t("neutralBadge")}</span>
+              <span className="block truncate text-[11px] text-white/60">{t("neutralBadge")}</span>
             </span>
           </button>
           <div className="flex items-center gap-1">
@@ -184,7 +184,7 @@ function Advisor() {
                         ? "bg-forest text-forest-foreground"
                         : current
                           ? "bg-gradient-sun text-sun-foreground shadow-glow"
-                          : "bg-muted text-muted-foreground",
+                          : "bg-white/10 text-white/60",
                     )}
                   >
                     {done ? "✓" : i + 1}
@@ -192,7 +192,7 @@ function Advisor() {
                   <span
                     className={cn(
                       "hidden truncate text-[11px] font-semibold uppercase tracking-wider sm:inline",
-                      current ? "text-foreground" : "text-muted-foreground",
+                      current ? "text-white" : "text-white/55",
                     )}
                   >
                     {s.label}
@@ -201,7 +201,7 @@ function Advisor() {
                     <span
                       className={cn(
                         "h-px flex-1 rounded-full transition-colors",
-                        i < stepIndex ? "bg-forest/50" : "bg-border",
+                        i < stepIndex ? "bg-forest/60" : "bg-white/15",
                       )}
                     />
                   ) : null}
@@ -252,6 +252,28 @@ function Advisor() {
               }}
             />
 
+            <section className="surface-panel p-6 sm:p-8">
+              <div className="mx-auto max-w-2xl text-center">
+                <span className="inline-flex items-center gap-2 rounded-full border border-sky/50 bg-sky/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] on-media backdrop-blur-sm">
+                  <Globe2 className="size-3.5" aria-hidden />
+                  {t("sdgTitle")}
+                </span>
+                <p className="mt-4 text-sm leading-relaxed on-media-muted">{t("sdgBody")}</p>
+              </div>
+              <ul className="mt-6 grid gap-3 sm:grid-cols-3">
+                {[
+                  { title: t("sdgP1Title"), body: t("sdgP1Body") },
+                  { title: t("sdgP2Title"), body: t("sdgP2Body") },
+                  { title: t("sdgP3Title"), body: t("sdgP3Body") },
+                ].map((s3) => (
+                  <li key={s3.title} className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <h3 className="text-sm font-semibold on-media">{s3.title}</h3>
+                    <p className="mt-1.5 text-xs leading-relaxed on-media-muted">{s3.body}</p>
+                  </li>
+                ))}
+              </ul>
+            </section>
+
             <section className="space-y-4">
               <h2 className="text-display text-center text-2xl on-media sm:text-3xl">{t("howTitle")}</h2>
               <ol className="grid gap-4 sm:grid-cols-3">
@@ -260,9 +282,9 @@ function Advisor() {
                   { title: t("how2Title"), body: t("how2Body") },
                   { title: t("how3Title"), body: t("how3Body") },
                 ].map((s2) => (
-                  <li key={s2.title} className="surface-card hover-lift p-5">
-                    <h3 className="text-sm font-semibold">{s2.title}</h3>
-                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{s2.body}</p>
+                  <li key={s2.title} className="surface-panel hover-lift p-5">
+                    <h3 className="text-sm font-semibold on-media">{s2.title}</h3>
+                    <p className="mt-2 text-xs leading-relaxed on-media-muted">{s2.body}</p>
                   </li>
                 ))}
               </ol>
@@ -280,9 +302,9 @@ function Advisor() {
                   { q: t("faq3Q"), a: t("faq3A") },
                   { q: t("faq4Q"), a: t("faq4A") },
                 ].map((f) => (
-                  <div key={f.q} className="surface-card p-5">
-                    <h3 className="text-sm font-semibold">{f.q}</h3>
-                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{f.a}</p>
+                  <div key={f.q} className="surface-panel p-5">
+                    <h3 className="text-sm font-semibold on-media">{f.q}</h3>
+                    <p className="mt-2 text-xs leading-relaxed on-media-muted">{f.a}</p>
                   </div>
                 ))}
               </div>
@@ -375,8 +397,8 @@ function Advisor() {
         ) : null}
       </main>
 
-      <footer className="border-t border-border/60 py-6">
-        <div className="mx-auto grid max-w-5xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 text-xs text-muted-foreground">
+      <footer className="border-t border-white/10 bg-[oklch(0.24_0.03_65/0.55)] py-6 backdrop-blur-xl">
+        <div className="mx-auto grid max-w-5xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 text-xs text-white/65">
           <p className="min-w-0">{t("honesty")}</p>
           <p className="shrink-0 font-medium">{t("neutralBadge")}</p>
         </div>
