@@ -124,6 +124,7 @@ export function LocationStep({
                   onChange={(e) => {
                     setPostal(e.target.value);
                     setPin(null);
+                    setApprox(false);
                     setPreview(null);
                     setFormatError(null);
                   }}
@@ -164,7 +165,10 @@ export function LocationStep({
           <MapPicker
             center={center}
             pin={pin}
-            onPin={(coords) => setPin(coords)}
+            onPin={(coords) => {
+              setApprox(false);
+              setPin(coords);
+            }}
             preview={preview}
             previewLoading={previewMutation.isPending}
             previewError={previewError}
