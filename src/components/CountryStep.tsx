@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { ChevronRight, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Flag } from "./Flag";
 import { COUNTRIES, type Country } from "@/lib/countries";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
@@ -55,12 +56,7 @@ export function CountryStep({
                   value?.code === c.code && "bg-accent font-medium",
                 )}
               >
-                <span
-                  className="grid size-7 shrink-0 place-items-center rounded-md bg-secondary text-[10px] font-bold tracking-wide text-secondary-foreground"
-                  aria-hidden
-                >
-                  {c.code}
-                </span>
+                <Flag code={c.code} />
                 <span className="min-w-0 flex-1 truncate">{c.name}</span>
                 <span className="shrink-0 text-[11px] font-medium text-muted-foreground">{c.currency}</span>
                 <ChevronRight

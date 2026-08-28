@@ -1,18 +1,42 @@
 import type { Economics } from "./solar-model";
 
-/** Formats a USD amount into the site's local currency for display only. */
+/**
+ * Formats a USD amount into the site's local currency for display only.
+ * `compact` is honoured only for genuinely large numbers so the local and
+ * USD figures never end up in different notations.
+ */
 export function money(usd: number, eco: Economics, lang: string, compact = false): string {
   const value = usd * eco.fx;
+  return formatCurrency(value, eco.currency, lang, compact && Math.abs(usd) >= 100000);
+}
+
+/** USD side of any figure. Always en-US so separators are unambiguous. */
+export function usdOnly(usd: number, _lang: string, compact = false): string {
+  return formatCurrency(usd, "USD", "en-US", compact && Math.abs(usd) >= 100000);
+}
+
+function formatCurrency(value: number, currency: string, lang: string, compact: boolean): string {
   try {
     return new Intl.NumberFormat(lang, {
       style: "currency",
-      currency: eco.currency,
-      maximumFractionDigits: 0,
-      notation: compact && Math.abs(value) >= 100000 ? "compact" : "standard",
+      currency,
+      maximumFractionDigits: compact ? 1 : 0,
+      notation: compact ? "compact" : "standard",
     }).format(value);
   } catch {
-    return `${Math.round(value).toLocaleString()} ${eco.currency}`;
+    return `${Math.round(value).toLocaleString("en-US")} ${currency}`;
   }
+}
+
+/**
+ * Local currency plus a USD reference. Both sides use the same notation, so
+ * a compact local value never sits next to a full-length USD value.
+ */
+export function dualMoney(usd: number, eco: Economics, lang: string, compact = false): string {
+  const useCompact = compact && Math.abs(usd) >= 100000;
+  const local = formatCurrency(usd * eco.fx, eco.currency, lang, useCompact);
+  if (eco.currency === "USD" || eco.fx === 1) return local;
+  return `${local} (${formatCurrency(usd, "USD", "en-US", useCompact)})`;
 }
 
 export function num(value: number, lang: string, digits = 0): string {
@@ -32,41 +56,11 @@ export function monthLabels(lang: string): string[] {
   }
 }
 
-/**
- * Local currency plus USD reference. Countries already on USD get one value.
- * FX rates are indicative (e.g. 1 USD = 96 INR).
- */
-export function dualMoney(usd: number, eco: Economics, lang: string, compact = false): string {
-  const local = money(usd, eco, lang, compact);
-  if (eco.currency === "USD" || eco.fx === 1) return local;
-  const inUsd = new Intl.NumberFormat(lang, {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-    notation: compact && Math.abs(usd) >= 100000 ? "compact" : "standard",
-  }).format(usd);
-  return `${local} (${inUsd})`;
-}
-
-/** Just the USD side, for secondary lines. */
-export function usdOnly(usd: number, lang: string, compact = false): string {
-  try {
-    return new Intl.NumberFormat(lang, {
-      style: "currency",
-      currency: "USD",
-      maximumFractionDigits: 0,
-      notation: compact && Math.abs(usd) >= 100000 ? "compact" : "standard",
-    }).format(usd);
-  } catch {
-    return `$${Math.round(usd).toLocaleString()}`;
-  }
-}
-
 /** Small per-unit amounts (e.g. cost per kWh) need decimals on both sides. */
 export function dualSmallMoney(usd: number, eco: Economics, lang: string): string {
-  const fmt = (v: number, cur: string, digits: number) => {
+  const fmt = (v: number, cur: string, locale: string, digits: number) => {
     try {
-      return new Intl.NumberFormat(lang, {
+      return new Intl.NumberFormat(locale, {
         style: "currency",
         currency: cur,
         minimumFractionDigits: digits,
@@ -77,7 +71,7 @@ export function dualSmallMoney(usd: number, eco: Economics, lang: string): strin
     }
   };
   const local = eco.fx * usd;
-  const localStr = fmt(local, eco.currency, local < 10 ? 2 : 1);
+  const localStr = fmt(local, eco.currency, lang, local < 10 ? 2 : 1);
   if (eco.currency === "USD" || eco.fx === 1) return localStr;
-  return `${localStr} (${fmt(usd, "USD", 3)})`;
+  return `${localStr} (${fmt(usd, "USD", "en-US", 3)})`;
 }
