@@ -199,18 +199,20 @@ function Advisor() {
                 <Sun className="size-3.5 animate-sun-pulse" aria-hidden />
                 {t("heroEyebrow")}
               </span>
-              <h2 className="text-display mt-5 text-4xl leading-[1.05] sm:text-5xl">{t("tagline")}</h2>
+              <h2 className="text-display mt-5 text-4xl leading-[1.05] sm:text-5xl">
+                <span className="text-gradient-energy">{t("tagline")}</span>
+              </h2>
               <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">{t("honesty")}</p>
             </div>
 
             <ul className="grid gap-3 sm:grid-cols-3">
               {[
-                { icon: Satellite, title: t("chip1Title"), body: t("chip1Body") },
-                { icon: Compass, title: t("chip2Title"), body: t("chip2Body") },
-                { icon: PiggyBank, title: t("chip3Title"), body: t("chip3Body") },
-              ].map(({ icon: Icon, title, body }) => (
+                { icon: Satellite, title: t("chip1Title"), body: t("chip1Body"), tone: "bg-gradient-sky text-sky-foreground" },
+                { icon: Compass, title: t("chip2Title"), body: t("chip2Body"), tone: "bg-gradient-sun text-sun-foreground" },
+                { icon: PiggyBank, title: t("chip3Title"), body: t("chip3Body"), tone: "bg-gradient-forest text-forest-foreground" },
+              ].map(({ icon: Icon, title, body, tone }) => (
                 <li key={title} className="surface-card hover-lift p-4">
-                  <span className="grid size-9 place-items-center rounded-lg bg-accent text-accent-foreground">
+                  <span className={cn("grid size-9 place-items-center rounded-lg shadow-soft", tone)}>
                     <Icon className="size-4.5" aria-hidden />
                   </span>
                   <h3 className="mt-3 text-sm font-semibold">{title}</h3>
@@ -255,7 +257,8 @@ function Advisor() {
 
         {step === "result" && result && activeConfig ? (
           <div className="animate-fade-up space-y-10">
-            <div className="surface-card overflow-hidden">
+            <div className="rounded-2xl bg-gradient-energy p-[2px] shadow-lift">
+              <div className="surface-card overflow-hidden border-0">
               <div className="bg-cream/50 px-5 py-8 sm:px-8">
                 <ScoreDisplay
                   score={result.score}
