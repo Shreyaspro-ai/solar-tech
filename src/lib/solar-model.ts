@@ -25,7 +25,7 @@ export type SiteData = {
   /** 0..1 — confidence in the underlying data */
   confidence: number;
   dataQuality: "high" | "medium" | "low";
-  imageryQuality?: string;
+  imageryQuality?: string | undefined;
   panelCapacityWatts: number;
   carbonOffsetKgPerMwh: number;
   hasSolarApi: boolean;
