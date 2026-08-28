@@ -255,30 +255,68 @@ function Advisor() {
 
             <ConfidenceLegend />
 
-            <section className="space-y-5">
+            <section className="space-y-5" aria-labelledby="faq-heading">
               <div className="text-center">
                 <span className="font-brand text-[11px] uppercase on-media-muted">FAQ</span>
-                <h2 className="text-display mt-1 text-2xl on-media sm:text-3xl">{t("faqTitle")}</h2>
+                <h2 id="faq-heading" className="text-display mt-1 text-2xl on-media sm:text-3xl">
+                  {t("faqTitle")}
+                </h2>
+                <p className="sr-only">
+                  Use Tab to move between questions, Enter or Space to expand an answer, and the arrow keys to move
+                  between questions.
+                </p>
               </div>
               <Accordion type="single" collapsible className="surface-panel divide-y divide-white/10 px-5 sm:px-7">
                 {[
-                  { q: t("sdgTitle"), a: `${t("sdgBody")}\n\n• ${t("sdgP1Title")} — ${t("sdgP1Body")}\n• ${t("sdgP2Title")} — ${t("sdgP2Body")}\n• ${t("sdgP3Title")} — ${t("sdgP3Body")}` },
-                  { q: t("howTitle"), a: `• ${t("how1Title")} — ${t("how1Body")}\n• ${t("how2Title")} — ${t("how2Body")}\n• ${t("how3Title")} — ${t("how3Body")}` },
+                  { q: t("sdgTitle"), a: `${t("sdgBody")}\n\n\u2022 ${t("sdgP1Title")} \u2014 ${t("sdgP1Body")}\n\u2022 ${t("sdgP2Title")} \u2014 ${t("sdgP2Body")}\n\u2022 ${t("sdgP3Title")} \u2014 ${t("sdgP3Body")}` },
+                  {
+                    q: t("howTitle"),
+                    a: `\u2022 ${t("how1Title")} \u2014 ${t("how1Body")}\n\u2022 ${t("how2Title")} \u2014 ${t("how2Body")}\n\u2022 ${t("how3Title")} \u2014 ${t("how3Body")}\n\u2022 ${t("how4Title")} \u2014 ${t("how4Body")}\n\u2022 ${t("how5Title")} \u2014 ${t("how5Body")}`,
+                  },
                   { q: t("faq1Q"), a: t("faq1A") },
                   { q: t("faq2Q"), a: t("faq2A") },
                   { q: t("faq3Q"), a: t("faq3A") },
                   { q: t("faq4Q"), a: t("faq4A") },
                 ].map((f, i) => (
                   <AccordionItem key={f.q} value={`faq-${i}`} className="border-b-0">
-                    <AccordionTrigger className="py-4 text-start text-sm font-semibold on-media hover:no-underline">
+                    <AccordionTrigger
+                        id={`faq-trigger-${i}`}
+                        aria-controls={`faq-panel-${i}`}
+                        className="py-4 text-start text-sm font-semibold on-media hover:no-underline focus-visible:rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sun"
+                      >
                       {f.q}
                     </AccordionTrigger>
-                    <AccordionContent className="whitespace-pre-line pb-4 text-xs leading-relaxed on-media-muted">
+                    <AccordionContent
+                      id={`faq-panel-${i}`}
+                      role="region"
+                      aria-labelledby={`faq-trigger-${i}`}
+                      className="whitespace-pre-line pb-4 text-xs leading-relaxed on-media-muted"
+                    >
                       {f.a}
                     </AccordionContent>
                   </AccordionItem>
                 ))}
               </Accordion>
+            </section>
+
+            <section className="surface-panel p-6 sm:p-8" aria-labelledby="about-heading">
+              <span className="font-brand text-[11px] uppercase on-media-muted">{t("aboutCredit")}</span>
+              <h2 id="about-heading" className="text-display mt-1 text-2xl on-media">
+                {t("aboutTitle")}
+              </h2>
+              <p className="mt-2 max-w-3xl text-sm leading-relaxed on-media-muted">{t("aboutBody")}</p>
+              <ul className="mt-5 grid gap-3 sm:grid-cols-3">
+                {[
+                  { title: t("aboutP1"), body: t("aboutP1Body") },
+                  { title: t("aboutP2"), body: t("aboutP2Body") },
+                  { title: t("aboutP3"), body: t("aboutP3Body") },
+                ].map((item) => (
+                  <li key={item.title} className="rounded-2xl border border-white/15 bg-white/5 p-4">
+                    <p className="text-sm font-semibold on-media">{item.title}</p>
+                    <p className="mt-1 text-xs leading-relaxed on-media-muted">{item.body}</p>
+                  </li>
+                ))}
+              </ul>
             </section>
           </div>
         ) : null}
