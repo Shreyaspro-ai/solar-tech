@@ -14,6 +14,7 @@ import { DetailPanel } from "@/components/DetailPanel";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { AppearanceControls } from "@/components/AppearanceControls";
 import { ConfidenceLegend } from "@/components/ConfidenceLegend";
+import { HeroVideo } from "@/components/HeroVideo";
 import { LocationStep } from "@/components/LocationStep";
 import { ScoreDisplay } from "@/components/ScoreDisplay";
 import { PanelLayoutMap } from "@/components/PanelLayoutMap";
