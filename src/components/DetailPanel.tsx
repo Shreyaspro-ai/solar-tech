@@ -56,8 +56,9 @@ export function DetailPanel({
         </p>
         {economics.currency !== "USD" ? (
           <p className="text-xs text-muted-foreground">
-            {t("costUsdLabel")}: {usdOnly(live.lifetimeSavingsUsd, lang, true)} · {usdOnly(live.annualSavingsUsd, lang)}{" "}
-            {t("perYear")}
+            {t("costUsdLabel")}: {usdOnly(live.lifetimeSavingsUsd, lang, true)} {t("lifetimeSavings").toLowerCase()}
+            {" · "}
+            {usdOnly(live.annualSavingsUsd, lang)} {t("perYear")}
           </p>
         ) : null}
         <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
