@@ -138,10 +138,10 @@ export async function geocode(query: string, region?: string): Promise<GeoResult
         precision: best.p,
       };
     });
-  } catch {
-
+  } catch (e) {
     const aborted = e instanceof Error && e.name === "AbortError";
     return { ok: false, reason: aborted ? "timeout" : "error", message: String(e) };
+
   }
 }
 
