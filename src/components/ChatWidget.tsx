@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { MessageCircle, Send, X, Loader2 } from "lucide-react";
+import { Send, X, Loader2 } from "lucide-react";
+import botAsset from "@/assets/solar-bot.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { askAssistant } from "@/lib/advisor.functions";
@@ -42,17 +43,28 @@ export function ChatWidget({ sessionId, context }: { sessionId: string | null; c
       <Button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="fixed bottom-5 end-5 z-40 size-14 rounded-full bg-gradient-sun p-0 text-sun-foreground shadow-lift hover:opacity-95"
+        className="fixed bottom-5 end-5 z-40 size-16 overflow-hidden rounded-full border border-white/40 bg-white p-0 shadow-lift transition hover:scale-105 hover:bg-white"
         aria-label={open ? t("chatClose") : t("chatOpen")}
       >
-        {open ? <X className="size-6" /> : <MessageCircle className="size-6" />}
+        {open ? (
+          <X className="size-6 text-foreground" />
+        ) : (
+          <img src={botAsset.url} alt="" className="size-full object-contain p-1" />
+        )}
       </Button>
 
       {open ? (
         <div className="fixed bottom-24 end-5 z-40 flex h-[26rem] w-[min(22rem,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-lift">
           <header className="flex items-center gap-2 border-b border-border bg-secondary/60 px-4 py-3">
-            <span className="size-2 rounded-full bg-score-high" aria-hidden />
-            <h2 className="text-sm font-semibold">{t("chatTitle")}</h2>
+            <img
+              src={botAsset.url}
+              alt=""
+              className="size-8 rounded-full bg-white object-contain p-0.5 shadow-soft"
+            />
+            <div className="min-w-0">
+              <h2 className="font-brand text-[11px] uppercase text-muted-foreground">Solar Tech</h2>
+              <p className="truncate text-sm font-semibold">{t("chatTitle")}</p>
+            </div>
           </header>
 
           <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto p-4">
