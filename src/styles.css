@@ -155,6 +155,11 @@
   --muted-foreground: oklch(0.75 0.02 110);
   --accent: oklch(0.34 0.045 120);
   --accent-foreground: oklch(0.96 0.015 92);
+  --sky: oklch(0.75 0.12 215);
+  --sky-foreground: oklch(0.18 0.03 230);
+  --coral: oklch(0.72 0.16 35);
+  --coral-foreground: oklch(0.2 0.04 40);
+  --forest: oklch(0.7 0.14 152);
   --border: oklch(1 0 0 / 12%);
   --input: oklch(1 0 0 / 16%);
 }
@@ -174,10 +179,12 @@
     font-family: var(--font-sans);
     background-image: radial-gradient(
         ellipse 80% 50% at 50% -10%,
-        oklch(0.79 0.152 74 / 0.16),
+        oklch(0.8 0.17 78 / 0.22),
         transparent 60%
       ),
-      radial-gradient(ellipse 60% 40% at 100% 0%, oklch(0.55 0.145 152 / 0.1), transparent 60%);
+      radial-gradient(ellipse 55% 40% at 100% 0%, oklch(0.68 0.13 215 / 0.14), transparent 60%),
+      radial-gradient(ellipse 55% 40% at 0% 0%, oklch(0.6 0.16 152 / 0.13), transparent 60%),
+      radial-gradient(ellipse 45% 35% at 85% 90%, oklch(0.68 0.18 35 / 0.08), transparent 65%);
     background-attachment: fixed;
   }
 
@@ -208,6 +215,21 @@
 
 @utility bg-gradient-forest {
   background-image: var(--gradient-forest);
+}
+
+@utility bg-gradient-energy {
+  background-image: var(--gradient-energy);
+}
+
+@utility bg-gradient-sky {
+  background-image: var(--gradient-sky);
+}
+
+@utility text-gradient-energy {
+  background-image: var(--gradient-energy);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
 @utility shadow-glow {
@@ -245,11 +267,12 @@
     0 24px 48px -20px oklch(0.36 0.072 155 / 0.4);
 }
 
-/* Soft radial sun glow behind the main flow */
+/* Soft radial glow behind the main flow — sun, sky and leaf */
 @utility bg-hero-glow {
   background-image:
-    radial-gradient(60rem 30rem at 50% -8rem, oklch(0.86 0.13 88 / 0.28), transparent 70%),
-    radial-gradient(40rem 24rem at 90% 10%, oklch(0.4 0.08 155 / 0.12), transparent 70%);
+    radial-gradient(60rem 30rem at 50% -8rem, oklch(0.86 0.15 88 / 0.32), transparent 70%),
+    radial-gradient(42rem 26rem at 92% 8%, oklch(0.68 0.13 215 / 0.16), transparent 70%),
+    radial-gradient(42rem 26rem at 6% 14%, oklch(0.6 0.16 152 / 0.15), transparent 70%);
   background-repeat: no-repeat;
 }
 
