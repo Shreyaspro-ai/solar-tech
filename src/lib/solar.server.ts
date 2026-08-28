@@ -336,7 +336,7 @@ export async function aiChat(
         "X-Lovable-AIG-SDK": "fetch",
       },
       body: JSON.stringify({
-        model: opts.model ?? "google/gemini-3.5-flash",
+        model: opts.model ?? "google/gemini-2.5-flash",
         messages,
         max_tokens: opts.maxTokens ?? 500,
       }),

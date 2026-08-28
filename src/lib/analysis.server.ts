@@ -11,24 +11,10 @@ import {
   type Economics,
   type SiteData,
 } from "./solar-model";
-import { aiChat, buildSiteData, haversine, reverseGeocode, type BuildingInsights } from "./solar.server";
+import { aiChat, buildSiteData, haversine, reverseGeocode } from "./solar.server";
 
-export type AnalysisResult = {
-  sessionId: string | null;
-  lat: number;
-  lng: number;
-  address: string | null;
-  score: number;
-  explanation: string;
-  recommendedLabel: Candidate["label"];
-  recommendedReason: string;
-  configs: Candidate[];
-  candidateCount: number;
-  site: SiteData;
-  economics: Economics;
-  buildingBox: BuildingInsights["boundingBox"] | null;
-  warnings: string[];
-};
+export type { AnalysisResult } from "./advisor-types";
+import type { AnalysisResult } from "./advisor-types";
 
 function economicsFor(countryCode: string | null): Economics {
   const c = getCountry(countryCode) ?? DEFAULT_COUNTRY;
@@ -101,7 +87,7 @@ Return ONLY valid JSON, no markdown fences:
       { role: "system", content: "You output only compact JSON. No prose, no code fences." },
       { role: "user", content: prompt },
     ],
-    { maxTokens: 400 },
+    { maxTokens: 1200 },
   );
 
   const fallback: AiText = {
@@ -114,16 +100,36 @@ Return ONLY valid JSON, no markdown fences:
   };
   if (!res.ok) return fallback;
 
+  const cleaned = res.text
+    .replace(/^```(?:json)?/i, "")
+    .replace(/```$/, "")
+    .trim();
+
   try {
-    const cleaned = res.text.replace(/^```(?:json)?/i, "").replace(/```$/, "").trim();
     const parsed = JSON.parse(cleaned) as Partial<AiText>;
     return {
       explanation: parsed.explanation?.trim() || fallback.explanation,
       reason: parsed.reason?.trim() || fallback.reason,
     };
   } catch {
-    return res.text.length > 10 && res.text.length < 400
-      ? { explanation: res.text.trim(), reason: fallback.reason }
+    // The model may stop mid-JSON; salvage the fields with a tolerant scan
+    // rather than ever showing raw JSON to the user.
+    const field = (name: string) => {
+      const m = cleaned.match(new RegExp(`"${name}"\\s*:\\s*"((?:[^"\\\\]|\\\\.)*)`));
+      const value = m?.[1]?.replace(/\\"/g, '"').trim();
+      return value && value.length > 8 ? value : null;
+    };
+    const explanation = field("explanation");
+    const reason = field("reason");
+    if (explanation || reason) {
+      return {
+        explanation: explanation ?? fallback.explanation,
+        reason: reason ?? fallback.reason,
+      };
+    }
+    const plain = cleaned.startsWith("{") ? "" : cleaned;
+    return plain.length > 10 && plain.length < 400
+      ? { explanation: plain, reason: fallback.reason }
       : fallback;
   }
 }
@@ -226,7 +232,7 @@ ${input.context}`;
 
   const res = await aiChat(
     [{ role: "system", content: system }, ...history, { role: "user", content: input.message }],
-    { maxTokens: 400 },
+    { maxTokens: 1200 },
   );
 
   const reply = res.ok && res.text ? res.text : res.ok ? "I couldn't generate an answer — try rephrasing." : res.message;
