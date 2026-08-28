@@ -242,7 +242,7 @@ export async function buildSiteData(
   let carbon = 400;
   let baselineYieldPerKw = pvw ?? climateYieldPerKw(lat);
   let yieldSource: SiteData["yieldSource"] = pvw ? "pvwatts" : "estimate";
-  let confidence = pvw ? 0.55 : 0.35;
+  let confidence = pvw ? 0.68 : 0.5;
   let hasSolarApi = false;
 
   if (insights?.solarPotential) {
@@ -277,13 +277,13 @@ export async function buildSiteData(
       // Solar API already accounts for shading, so divide it back out of the baseline.
       baselineYieldPerKw = Math.round(acYield / shadeFactor);
       yieldSource = "solar-api";
-      confidence = insights.imageryQuality === "HIGH" ? 0.92 : insights.imageryQuality === "MEDIUM" ? 0.75 : 0.6;
+      confidence = insights.imageryQuality === "HIGH" ? 0.92 : insights.imageryQuality === "MEDIUM" ? 0.82 : 0.7;
       if (pvw) {
         // blend with the secondary source when they disagree strongly
         const ratio = baselineYieldPerKw / pvw;
         if (ratio > 1.4 || ratio < 0.6) {
           baselineYieldPerKw = Math.round((baselineYieldPerKw + pvw) / 2);
-          confidence = Math.min(confidence, 0.7);
+          confidence = Math.min(confidence, 0.72);
           notes.push("sources-disagree");
         }
       }
@@ -295,7 +295,7 @@ export async function buildSiteData(
 
   if (!pvw) notes.push("no-pvwatts");
 
-  const dataQuality: SiteData["dataQuality"] = confidence >= 0.8 ? "high" : confidence >= 0.55 ? "medium" : "low";
+  const dataQuality: SiteData["dataQuality"] = confidence >= 0.8 ? "high" : confidence >= 0.5 ? "medium" : "low";
 
   const site: SiteData = {
     lat,
