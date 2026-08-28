@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import logoUrl from "@/assets/solar-tech-logo.png";
+import markUrl from "@/assets/solar-tech-mark.png";
 import { ArrowLeft, Compass, PiggyBank, RotateCcw, Satellite, Sun } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -145,11 +145,11 @@ function Advisor() {
             aria-label={t("appTitle")}
           >
             <img
-              src={logoUrl}
+              src={markUrl}
               alt="Solar Tech"
               width={40}
               height={40}
-              className="size-10 shrink-0 rounded-xl bg-card object-contain p-1 shadow-soft"
+              className="size-10 shrink-0 object-contain"
             />
             <span className="min-w-0">
               <span className="block truncate text-sm font-semibold sm:text-base">{t("appTitle")}</span>
