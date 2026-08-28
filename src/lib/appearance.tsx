@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
 export type ThemeMode = "light" | "dark";
 export type Intensity = "vibrant" | "calm";
@@ -71,5 +71,3 @@ export function useAppearance(): AppearanceValue {
 export function useIsColorBlind(): boolean {
   return useAppearance().colorBlind;
 }
-
-export const noop = useCallback;
