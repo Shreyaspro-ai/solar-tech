@@ -143,7 +143,7 @@ function Advisor() {
         "bg-transparent",
       )}
     >
-      <HeroVideo variant={step === "location" ? "location" : "home"} />
+      <HeroVideo />
       <header className="sticky top-0 z-40 border-b border-white/10 bg-[oklch(0.24_0.03_65/0.82)] text-white backdrop-blur-xl">
         <div className="mx-auto grid max-w-5xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-3">
           <button
