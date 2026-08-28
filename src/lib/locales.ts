@@ -206,7 +206,7 @@ export type Dict = typeof en;
 type Partials = Partial<Dict>;
 
 const hi: Partials = {
-  appTitle: "स्मार्ट सोलर प्लेसमेंट सलाहकार",
+  appTitle: "Solar Tech",
   tagline: "छत पर सोलर के बारे में स्वतंत्र, एआई-आधारित दूसरी राय।",
   neutralBadge: "स्वतंत्र सलाह · बिक्री का साधन नहीं",
   honesty: "ये केवल अनुमान हैं। हम अपना विश्वास स्तर छिपाते नहीं हैं।",
@@ -254,7 +254,7 @@ const hi: Partials = {
 };
 
 const kn: Partials = {
-  appTitle: "ಸ್ಮಾರ್ಟ್ ಸೋಲಾರ್ ಸಲಹೆಗಾರ",
+  appTitle: "Solar Tech",
   tagline: "ಮೇಲ್ಛಾವಣಿ ಸೌರಶಕ್ತಿ ಕುರಿತು ಸ್ವತಂತ್ರ, ಎಐ ಆಧಾರಿತ ಎರಡನೇ ಅಭಿಪ್ರಾಯ.",
   neutralBadge: "ಸ್ವತಂತ್ರ ಸಲಹೆ · ಮಾರಾಟ ಸಾಧನವಲ್ಲ",
   honesty: "ಇವು ಅಂದಾಜುಗಳಷ್ಟೇ. ನಮ್ಮ ವಿಶ್ವಾಸ ಮಟ್ಟವನ್ನು ಮರೆಮಾಚುವುದಿಲ್ಲ.",
@@ -301,7 +301,7 @@ const kn: Partials = {
 };
 
 const ta: Partials = {
-  appTitle: "ஸ்மார்ட் சோலார் ஆலோசகர்",
+  appTitle: "Solar Tech",
   tagline: "கூரை சூரிய மின்சாரம் குறித்த சுதந்திரமான, AI இரண்டாவது கருத்து.",
   neutralBadge: "சுயேச்சை ஆலோசனை · விற்பனைக் கருவி அல்ல",
   honesty: "இவை மதிப்பீடுகள் மட்டுமே. எங்கள் நம்பகத்தன்மையை மறைக்கவில்லை.",
@@ -348,7 +348,7 @@ const ta: Partials = {
 };
 
 const te: Partials = {
-  appTitle: "స్మార్ట్ సోలార్ సలహాదారు",
+  appTitle: "Solar Tech",
   tagline: "పైకప్పు సౌరశక్తిపై స్వతంత్ర, AI ఆధారిత రెండవ అభిప్రాయం.",
   neutralBadge: "స్వతంత్ర సలహా · అమ్మకపు సాధనం కాదు",
   honesty: "ఇవి అంచనాలు మాత్రమే. మా విశ్వాస స్థాయిని దాచము.",
@@ -395,7 +395,7 @@ const te: Partials = {
 };
 
 const mr: Partials = {
-  appTitle: "स्मार्ट सोलर सल्लागार",
+  appTitle: "Solar Tech",
   tagline: "छतावरील सौरऊर्जेबाबत स्वतंत्र, एआय-आधारित दुसरे मत.",
   neutralBadge: "स्वतंत्र सल्ला · विक्री साधन नाही",
   honesty: "हे केवळ अंदाज आहेत. आम्ही आमची खात्री लपवत नाही.",
@@ -442,7 +442,7 @@ const mr: Partials = {
 };
 
 const bn: Partials = {
-  appTitle: "স্মার্ট সোলার উপদেষ্টা",
+  appTitle: "Solar Tech",
   tagline: "ছাদের সৌরবিদ্যুৎ নিয়ে স্বাধীন, এআই-চালিত দ্বিতীয় মতামত।",
   neutralBadge: "নিরপেক্ষ পরামর্শ · বিক্রয় সরঞ্জাম নয়",
   honesty: "এগুলো কেবল অনুমান। আমরা আস্থার মাত্রা লুকাই না।",
@@ -489,7 +489,7 @@ const bn: Partials = {
 };
 
 const ur: Partials = {
-  appTitle: "اسمارٹ سولر ایڈوائزر",
+  appTitle: "Solar Tech",
   tagline: "چھت پر شمسی توانائی کے بارے میں غیر جانبدار، اے آئی رائے۔",
   neutralBadge: "آزاد مشورہ · فروخت کا آلہ نہیں",
   honesty: "یہ صرف تخمینے ہیں۔ ہم اپنے اعتماد کی سطح نہیں چھپاتے۔",
@@ -536,7 +536,7 @@ const ur: Partials = {
 };
 
 const ar: Partials = {
-  appTitle: "مستشار الطاقة الشمسية الذكي",
+  appTitle: "Solar Tech",
   tagline: "رأي ثانٍ مستقل مدعوم بالذكاء الاصطناعي حول الطاقة الشمسية للأسطح.",
   neutralBadge: "استشارة مستقلة · ليست أداة بيع",
   honesty: "هذه تقديرات فقط. نعرض مستوى ثقتنا بدل إخفائه.",
@@ -583,7 +583,7 @@ const ar: Partials = {
 };
 
 const zh: Partials = {
-  appTitle: "智能光伏选址顾问",
+  appTitle: "Solar Tech",
   tagline: "关于屋顶光伏的独立 AI 第二意见。",
   neutralBadge: "独立建议 · 非销售工具",
   honesty: "这些只是估算。我们会明确标注置信度。",
@@ -622,7 +622,7 @@ const zh: Partials = {
 };
 
 const es: Partials = {
-  appTitle: "Asesor Inteligente de Energía Solar",
+  appTitle: "Solar Tech",
   tagline: "Una segunda opinión independiente, con IA, sobre la solar en tu tejado.",
   neutralBadge: "Asesoría independiente · no es una herramienta de venta",
   honesty: "Solo estimaciones. Mostramos nuestra confianza en vez de ocultarla.",
@@ -667,7 +667,7 @@ const es: Partials = {
 };
 
 const fr: Partials = {
-  appTitle: "Conseiller Solaire Intelligent",
+  appTitle: "Solar Tech",
   tagline: "Un second avis indépendant, propulsé par l'IA, sur le solaire en toiture.",
   neutralBadge: "Conseil indépendant · pas un outil de vente",
   honesty: "Ce sont des estimations. Nous affichons notre niveau de confiance.",
@@ -712,7 +712,7 @@ const fr: Partials = {
 };
 
 const ru: Partials = {
-  appTitle: "Умный солнечный советник",
+  appTitle: "Solar Tech",
   tagline: "Независимое мнение на базе ИИ о солнечных панелях на вашей крыше.",
   neutralBadge: "Независимый совет · не инструмент продаж",
   honesty: "Это оценки. Мы показываем уровень уверенности, а не скрываем его.",
@@ -757,7 +757,7 @@ const ru: Partials = {
 };
 
 const pt: Partials = {
-  appTitle: "Consultor Solar Inteligente",
+  appTitle: "Solar Tech",
   tagline: "Uma segunda opinião independente, com IA, sobre solar no seu telhado.",
   neutralBadge: "Aconselhamento independente · não é ferramenta de venda",
   honesty: "São estimativas. Mostramos a nossa confiança em vez de a esconder.",
@@ -802,7 +802,7 @@ const pt: Partials = {
 };
 
 const sw: Partials = {
-  appTitle: "Mshauri Mahiri wa Nishati ya Jua",
+  appTitle: "Solar Tech",
   tagline: "Maoni huru yanayotumia AI kuhusu nishati ya jua paani.",
   neutralBadge: "Ushauri huru · si chombo cha mauzo",
   honesty: "Haya ni makadirio tu. Tunaonyesha kiwango chetu cha uhakika.",
@@ -847,7 +847,7 @@ const sw: Partials = {
 };
 
 const id: Partials = {
-  appTitle: "Penasihat Surya Cerdas",
+  appTitle: "Solar Tech",
   tagline: "Pendapat kedua yang independen dan berbasis AI tentang surya atap.",
   neutralBadge: "Saran independen · bukan alat penjualan",
   honesty: "Ini hanya perkiraan. Kami menampilkan tingkat keyakinan kami.",
@@ -892,7 +892,7 @@ const id: Partials = {
 };
 
 const vi: Partials = {
-  appTitle: "Cố vấn Điện mặt trời Thông minh",
+  appTitle: "Solar Tech",
   tagline: "Ý kiến thứ hai độc lập, dùng AI, về điện mặt trời áp mái.",
   neutralBadge: "Tư vấn độc lập · không phải công cụ bán hàng",
   honesty: "Đây chỉ là ước tính. Chúng tôi công khai mức độ tin cậy.",
@@ -937,7 +937,7 @@ const vi: Partials = {
 };
 
 const de: Partials = {
-  appTitle: "Intelligenter Solar-Berater",
+  appTitle: "Solar Tech",
   tagline: "Eine unabhängige, KI-gestützte Zweitmeinung zu Solar auf Ihrem Dach.",
   neutralBadge: "Unabhängige Beratung · kein Verkaufstool",
   honesty: "Nur Schätzungen. Wir zeigen unsere Sicherheit, statt sie zu verbergen.",
@@ -982,7 +982,7 @@ const de: Partials = {
 };
 
 const ja: Partials = {
-  appTitle: "スマート太陽光アドバイザー",
+  appTitle: "Solar Tech",
   tagline: "屋根の太陽光発電について、AI による中立なセカンドオピニオン。",
   neutralBadge: "中立なアドバイス · 販売ツールではありません",
   honesty: "これは推定値です。確からしさを隠さず表示します。",
@@ -1026,7 +1026,7 @@ const ja: Partials = {
 };
 
 const tr: Partials = {
-  appTitle: "Akıllı Güneş Enerjisi Danışmanı",
+  appTitle: "Solar Tech",
   tagline: "Çatı güneş enerjisi için bağımsız, yapay zekâ destekli ikinci görüş.",
   neutralBadge: "Bağımsız tavsiye · satış aracı değil",
   honesty: "Bunlar yalnızca tahmindir. Güven düzeyimizi gizlemiyoruz.",
