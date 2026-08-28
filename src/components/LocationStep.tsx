@@ -37,6 +37,7 @@ export function LocationStep({
   const verifyMutation = useMutation({
     mutationFn: (code: string) => verify({ data: { countryCode: country.code, postalCode: code } }),
     onSuccess: (res) => {
+      console.log("VERIFY_RES", JSON.stringify(res));
       if (!res.verified) {
         setFormatError(
           res.reason === "imprecise"
