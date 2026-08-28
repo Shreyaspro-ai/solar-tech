@@ -6,6 +6,7 @@ import markUrl from "@/assets/solar-tech-mark.png";
 import { ArrowLeft, Compass, Globe2, PiggyBank, RotateCcw, Satellite, Sun } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { AnalysisLoading } from "@/components/AnalysisLoading";
 import { ChatWidget } from "@/components/ChatWidget";
 import { ConfigCards } from "@/components/ConfigCards";
@@ -217,7 +218,7 @@ function Advisor() {
           <div className="animate-fade-up space-y-10">
             <section className="pb-2 pt-6">
               <div className="mx-auto max-w-2xl text-center">
-                <span className="inline-flex items-center gap-2 rounded-full border border-sun/60 bg-sun/25 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] on-media backdrop-blur-sm">
+                <span className="inline-flex items-center gap-2 rounded-full border border-sun/60 bg-sun/25 px-3 py-1 font-brand text-[11px] uppercase on-media backdrop-blur-sm">
                   <Sun className="size-3.5 animate-sun-pulse" aria-hidden />
                   {t("heroEyebrow")}
                 </span>
@@ -252,62 +253,32 @@ function Advisor() {
               }}
             />
 
-            <section className="surface-panel p-6 sm:p-8">
-              <div className="mx-auto max-w-2xl text-center">
-                <span className="inline-flex items-center gap-2 rounded-full border border-sky/50 bg-sky/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] on-media backdrop-blur-sm">
-                  <Globe2 className="size-3.5" aria-hidden />
-                  {t("sdgTitle")}
-                </span>
-                <p className="mt-4 text-sm leading-relaxed on-media-muted">{t("sdgBody")}</p>
-              </div>
-              <ul className="mt-6 grid gap-3 sm:grid-cols-3">
-                {[
-                  { title: t("sdgP1Title"), body: t("sdgP1Body") },
-                  { title: t("sdgP2Title"), body: t("sdgP2Body") },
-                  { title: t("sdgP3Title"), body: t("sdgP3Body") },
-                ].map((s3) => (
-                  <li key={s3.title} className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                    <h3 className="text-sm font-semibold on-media">{s3.title}</h3>
-                    <p className="mt-1.5 text-xs leading-relaxed on-media-muted">{s3.body}</p>
-                  </li>
-                ))}
-              </ul>
-            </section>
-
-            <section className="space-y-4">
-              <h2 className="text-display text-center text-2xl on-media sm:text-3xl">{t("howTitle")}</h2>
-              <ol className="grid gap-4 sm:grid-cols-3">
-                {[
-                  { title: t("how1Title"), body: t("how1Body") },
-                  { title: t("how2Title"), body: t("how2Body") },
-                  { title: t("how3Title"), body: t("how3Body") },
-                ].map((s2) => (
-                  <li key={s2.title} className="surface-panel hover-lift p-5">
-                    <h3 className="text-sm font-semibold on-media">{s2.title}</h3>
-                    <p className="mt-2 text-xs leading-relaxed on-media-muted">{s2.body}</p>
-                  </li>
-                ))}
-              </ol>
-            </section>
-
-
             <ConfidenceLegend />
 
-            <section className="space-y-4">
-              <h2 className="text-display text-center text-2xl on-media sm:text-3xl">{t("faqTitle")}</h2>
-              <div className="grid gap-3 sm:grid-cols-2">
+            <section className="space-y-5">
+              <div className="text-center">
+                <span className="font-brand text-[11px] uppercase on-media-muted">FAQ</span>
+                <h2 className="text-display mt-1 text-2xl on-media sm:text-3xl">{t("faqTitle")}</h2>
+              </div>
+              <Accordion type="single" collapsible className="surface-panel divide-y divide-white/10 px-5 sm:px-7">
                 {[
+                  { q: t("sdgTitle"), a: `${t("sdgBody")}\n\n• ${t("sdgP1Title")} — ${t("sdgP1Body")}\n• ${t("sdgP2Title")} — ${t("sdgP2Body")}\n• ${t("sdgP3Title")} — ${t("sdgP3Body")}` },
+                  { q: t("howTitle"), a: `• ${t("how1Title")} — ${t("how1Body")}\n• ${t("how2Title")} — ${t("how2Body")}\n• ${t("how3Title")} — ${t("how3Body")}` },
                   { q: t("faq1Q"), a: t("faq1A") },
                   { q: t("faq2Q"), a: t("faq2A") },
                   { q: t("faq3Q"), a: t("faq3A") },
                   { q: t("faq4Q"), a: t("faq4A") },
-                ].map((f) => (
-                  <div key={f.q} className="surface-panel p-5">
-                    <h3 className="text-sm font-semibold on-media">{f.q}</h3>
-                    <p className="mt-2 text-xs leading-relaxed on-media-muted">{f.a}</p>
-                  </div>
+                ].map((f, i) => (
+                  <AccordionItem key={f.q} value={`faq-${i}`} className="border-b-0">
+                    <AccordionTrigger className="py-4 text-start text-sm font-semibold on-media hover:no-underline">
+                      {f.q}
+                    </AccordionTrigger>
+                    <AccordionContent className="whitespace-pre-line pb-4 text-xs leading-relaxed on-media-muted">
+                      {f.a}
+                    </AccordionContent>
+                  </AccordionItem>
                 ))}
-              </div>
+              </Accordion>
             </section>
           </div>
         ) : null}
@@ -400,8 +371,11 @@ function Advisor() {
       <footer className="border-t border-white/10 bg-[oklch(0.24_0.03_65/0.55)] py-6 backdrop-blur-xl">
         <div className="mx-auto grid max-w-5xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 text-xs text-white/65">
           <p className="min-w-0">{t("honesty")}</p>
-          <p className="shrink-0 font-medium">{t("neutralBadge")}</p>
+          <p className="shrink-0 font-brand text-[11px] uppercase text-white/80">{t("neutralBadge")}</p>
         </div>
+        <p className="mx-auto mt-4 max-w-5xl px-4 text-center font-brand text-[11px] uppercase tracking-[0.18em] text-white/70">
+          Made by Thippesh Sir Army
+        </p>
       </footer>
 
 

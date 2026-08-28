@@ -20,6 +20,7 @@
   --radius-4xl: calc(var(--radius) + 16px);
 
   --font-display: "Outfit", "Noto Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-accent: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "DM Sans", "Noto Sans", ui-sans-serif, system-ui, sans-serif;
 
   --color-background: var(--background);
@@ -194,6 +195,19 @@
     font-family: var(--font-display);
     letter-spacing: -0.02em;
   }
+}
+
+@utility font-brand {
+  font-family: var(--font-accent);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+@utility font-figures {
+  font-family: var(--font-accent);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
 }
 
 @utility text-display {
