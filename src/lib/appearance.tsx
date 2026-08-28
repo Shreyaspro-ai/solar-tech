@@ -10,6 +10,8 @@ type AppearanceValue = {
   setIntensity: (i: Intensity) => void;
   colorBlind: boolean;
   setColorBlind: (v: boolean) => void;
+  highContrast: boolean;
+  setHighContrast: (v: boolean) => void;
 };
 
 const AppearanceContext = createContext<AppearanceValue | null>(null);
@@ -19,6 +21,7 @@ export function AppearanceProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<ThemeMode>("light");
   const [intensity, setIntensityState] = useState<Intensity>("vibrant");
   const [colorBlind, setColorBlindState] = useState(false);
+  const [highContrast, setHighContrastState] = useState(false);
 
   useEffect(() => {
     try {
@@ -28,6 +31,7 @@ export function AppearanceProvider({ children }: { children: ReactNode }) {
         if (p.theme === "dark" || p.theme === "light") setThemeState(p.theme);
         if (p.intensity === "calm" || p.intensity === "vibrant") setIntensityState(p.intensity);
         if (typeof p.colorBlind === "boolean") setColorBlindState(p.colorBlind);
+        if (typeof p.highContrast === "boolean") setHighContrastState(p.highContrast);
       }
     } catch {
       /* ignore */
@@ -39,12 +43,13 @@ export function AppearanceProvider({ children }: { children: ReactNode }) {
     el.classList.toggle("dark", theme === "dark");
     el.classList.toggle("calm", intensity === "calm");
     el.classList.toggle("cb-safe", colorBlind);
+    el.classList.toggle("hc", highContrast);
     try {
-      window.localStorage.setItem(KEY, JSON.stringify({ theme, intensity, colorBlind }));
+      window.localStorage.setItem(KEY, JSON.stringify({ theme, intensity, colorBlind, highContrast }));
     } catch {
       /* ignore */
     }
-  }, [theme, intensity, colorBlind]);
+  }, [theme, intensity, colorBlind, highContrast]);
 
   const value = useMemo(
     () => ({
@@ -54,8 +59,10 @@ export function AppearanceProvider({ children }: { children: ReactNode }) {
       setIntensity: setIntensityState,
       colorBlind,
       setColorBlind: setColorBlindState,
+      highContrast,
+      setHighContrast: setHighContrastState,
     }),
-    [theme, intensity, colorBlind],
+    [theme, intensity, colorBlind, highContrast],
   );
 
   return <AppearanceContext.Provider value={value}>{children}</AppearanceContext.Provider>;

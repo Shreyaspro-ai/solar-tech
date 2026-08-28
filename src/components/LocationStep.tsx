@@ -91,21 +91,23 @@ export function LocationStep({
   return (
     <section className="mx-auto w-full max-w-3xl space-y-5">
       <Tabs value={tab} onValueChange={setTab}>
-        <TabsList className="mx-auto grid w-full max-w-md grid-cols-2">
-          <TabsTrigger value="pincode" disabled={!country.postal}>
+        <TabsList className="mx-auto grid w-full max-w-md grid-cols-2 border border-white/15 bg-[oklch(0.2_0.025_60/0.6)] text-white/70 backdrop-blur-md">
+          <TabsTrigger value="pincode" disabled={!country.postal} className="data-[state=active]:bg-white/90 data-[state=active]:text-[oklch(0.24_0.03_60)]">
             {t("tabPincode")}
           </TabsTrigger>
-          <TabsTrigger value="map">{t("tabMap")}</TabsTrigger>
+          <TabsTrigger value="map" className="data-[state=active]:bg-white/90 data-[state=active]:text-[oklch(0.24_0.03_60)]">{t("tabMap")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="pincode" className="mt-5">
+          <div className="surface-panel mx-auto max-w-xl p-6">
           {country.postal ? (
             <form onSubmit={submitPostal} className="mx-auto max-w-md space-y-3">
-              <label htmlFor="postal" className="block text-sm font-medium">
+              <label htmlFor="postal" className="block text-sm font-medium on-media">
                 {t("pincodeLabel")}
               </label>
               <div className="flex gap-2">
                 <Input
+                  className="border-white/25 bg-white/95 text-[oklch(0.2_0.02_60)] placeholder:text-[oklch(0.5_0.02_60)]"
                   id="postal"
                   value={postal}
                   onChange={(e) => {
@@ -122,11 +124,11 @@ export function LocationStep({
                   {verifyMutation.isPending ? <Loader2 className="size-4 animate-spin" /> : t("verifyBtn")}
                 </Button>
               </div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs on-media-muted">
                 {t("pincodeHint", { example: country.postalExample ?? "—" })}
               </p>
               {formatError ? (
-                <p className="text-sm text-destructive">
+                <p className="text-sm font-medium text-[oklch(0.82_0.16_35)]">
                   {formatError}{" "}
                   <button
                     type="button"
@@ -139,13 +141,15 @@ export function LocationStep({
               ) : null}
             </form>
           ) : (
-            <p className="text-center text-sm text-muted-foreground">
+            <p className="text-center text-sm on-media-muted">
               {t("pincodeUnavailable", { country: country.name })}
             </p>
           )}
+          </div>
         </TabsContent>
 
         <TabsContent value="map" className="mt-5">
+          <div className="surface-panel p-3 sm:p-4">
           <MapPicker
             center={center}
             pin={pin}
@@ -154,24 +158,25 @@ export function LocationStep({
             previewLoading={previewMutation.isPending}
             previewError={previewError}
           />
+          </div>
         </TabsContent>
       </Tabs>
 
       {pin ? (
-        <div className="rounded-2xl border border-border bg-card p-5 shadow-soft">
-          <h3 className="mb-3 flex items-center gap-2 text-base font-semibold">
+        <div className="surface-panel animate-fade-up p-5">
+          <h3 className="mb-3 flex items-center gap-2 text-base font-semibold on-media">
             <MapPinned className="size-4 text-sun" aria-hidden />
             {t("confirmTitle")}
           </h3>
-          <dl className="space-y-1.5 text-sm">
+          <dl className="space-y-1.5 text-sm on-media">
             {address ? (
               <div className="flex gap-2">
-                <dt className="text-muted-foreground">{t("addressLabel")}:</dt>
+                <dt className="on-media-muted">{t("addressLabel")}:</dt>
                 <dd className="font-medium">{address}</dd>
               </div>
             ) : null}
             <div className="flex gap-2">
-              <dt className="text-muted-foreground">{t("coordsLabel")}:</dt>
+              <dt className="on-media-muted">{t("coordsLabel")}:</dt>
               <dd className="font-mono text-xs">
                 {pin.lat.toFixed(5)}, {pin.lng.toFixed(5)}
               </dd>

@@ -143,7 +143,7 @@ function Advisor() {
         "bg-transparent",
       )}
     >
-      <HeroVideo />
+      <HeroVideo variant={step === "location" ? "location" : "home"} />
       <header className="sticky top-0 z-40 border-b border-white/10 bg-[oklch(0.24_0.03_65/0.82)] text-white backdrop-blur-xl">
         <div className="mx-auto grid max-w-5xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-3">
           <button
@@ -314,8 +314,8 @@ function Advisor() {
 
 
         {step === "location" && country ? (
-          <div className="space-y-4">
-            <Button variant="ghost" size="sm" className="gap-1.5" onClick={() => setStep("country")}>
+          <div className="animate-fade-up space-y-4">
+            <Button variant="ghost" size="sm" className="gap-1.5 on-media hover:bg-white/15" onClick={() => setStep("country")}>
               <ArrowLeft className="size-4 rtl:rotate-180" aria-hidden /> {t("back")}
             </Button>
             {error ? (
