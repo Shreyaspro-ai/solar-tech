@@ -271,8 +271,9 @@ function Advisor() {
                   {result.warnings.map((w) => (
                     <li key={w}>{w in DICTS.en ? t(w as keyof Dict) : w}</li>
                   ))}
-                </ul>
+                 </ul>
               ) : null}
+              </div>
             </div>
 
             <ConfigCards
