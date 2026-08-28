@@ -150,7 +150,7 @@ export type BuildingInsights = {
       yearlyEnergyDcKwh: number;
       segmentIndex?: number | undefined;
     }> | undefined;
-  };
+  } | undefined;
 };
 
 const MAX_STORED_PANELS = 260;
