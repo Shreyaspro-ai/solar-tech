@@ -37,17 +37,16 @@ export function LocationStep({
     onSuccess: (res) => {
       if (!res.verified) {
         setFormatError(res.reason === "not_found" ? t("notFound") : t("unverified"));
-        setTab("map");
         return;
       }
       setFormatError(null);
-      setCenter({ lat: res.lat, lng: res.lng });
+      const coords = { lat: res.lat, lng: res.lng };
+      setCenter(coords);
       setAddress(res.address ?? null);
-      setTab("map");
+      setPin(coords);
     },
     onError: () => {
       setFormatError(t("unverified"));
-      setTab("map");
     },
   });
 
