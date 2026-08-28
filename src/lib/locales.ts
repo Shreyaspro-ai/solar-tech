@@ -200,6 +200,14 @@ export const en = {
   faq3A: "No. There is no lead form here, and nothing is shared with installers.",
   faq4Q: "What exchange rate do you use?",
   faq4A: "Indicative fixed rates for display only — for example 1 USD = 96 INR. Local price and USD are always shown together.",
+  sdgTitle: "What is SDG 7?",
+  sdgBody: "Sustainable Development Goal 7 is the United Nations' promise for 2030: ensure access to affordable, reliable, sustainable and modern energy for all. Rooftop solar is one of the most direct ways a household can take part — this tool exists to make that decision honest and independent.",
+  sdgP1Title: "7.1 · Universal access",
+  sdgP1Body: "Affordable, reliable and modern energy services for every household.",
+  sdgP2Title: "7.2 · More renewables",
+  sdgP2Body: "A substantially larger share of renewable energy in the global mix.",
+  sdgP3Title: "7.a · Shared knowledge",
+  sdgP3Body: "Better access to clean-energy research and technology for everyone.",
 };
 
 export type Dict = typeof en;

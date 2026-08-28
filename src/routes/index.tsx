@@ -140,10 +140,10 @@ function Advisor() {
     <div
       className={cn(
         "relative flex min-h-screen flex-col",
-        step === "country" ? "bg-transparent" : "bg-background bg-hero-glow",
+        "bg-transparent",
       )}
     >
-      {step === "country" ? <HeroVideo /> : null}
+      <HeroVideo />
       <header className="sticky top-0 z-40 border-b border-border/60 glass-bar">
         <div className="mx-auto grid max-w-5xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-3">
           <button
