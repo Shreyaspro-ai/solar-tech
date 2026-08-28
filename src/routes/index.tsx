@@ -317,7 +317,6 @@ function Advisor() {
                   </li>
                 ))}
               </ul>
-              <p className="mt-5 font-brand text-[11px] uppercase on-media">{t("aboutCredit")}</p>
             </section>
           </div>
         ) : null}
