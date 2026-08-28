@@ -129,43 +129,96 @@ function Advisor() {
   };
 
   return (
-    <div className="min-h-screen bg-background bg-hero-glow">
-      <header className="mx-auto flex max-w-5xl items-center gap-3 px-4 py-5">
-        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-gradient-sun text-sun-foreground shadow-soft">
-          <Sun className="size-5" aria-hidden />
-        </span>
-        <div className="min-w-0 flex-1">
-          <h1 className="truncate text-base font-semibold sm:text-lg">{t("appTitle")}</h1>
-          <p className="truncate text-xs text-muted-foreground">{t("neutralBadge")}</p>
+    <div className="flex min-h-screen flex-col bg-background bg-hero-glow">
+      <header className="sticky top-0 z-40 border-b border-border/60 glass-bar">
+        <div className="mx-auto grid max-w-5xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-3">
+          <button
+            type="button"
+            onClick={restart}
+            className="flex min-w-0 items-center gap-3 text-start"
+            aria-label={t("appTitle")}
+          >
+            <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-gradient-sun text-sun-foreground shadow-glow">
+              <Sun className="size-5" aria-hidden />
+            </span>
+            <span className="min-w-0">
+              <span className="block truncate text-sm font-semibold sm:text-base">{t("appTitle")}</span>
+              <span className="block truncate text-[11px] text-muted-foreground">{t("neutralBadge")}</span>
+            </span>
+          </button>
+          <LanguageSelector />
         </div>
-        <LanguageSelector />
+
+        <nav aria-label="Progress" className="mx-auto max-w-5xl px-4 pb-3">
+          <ol className="flex items-center gap-2">
+            {steps.map((s, i) => {
+              const done = i < stepIndex;
+              const current = i === stepIndex;
+              return (
+                <li key={s.id} className="flex min-w-0 flex-1 items-center gap-2">
+                  <span
+                    className={cn(
+                      "grid size-5 shrink-0 place-items-center rounded-full text-[10px] font-bold transition-colors",
+                      done
+                        ? "bg-forest text-forest-foreground"
+                        : current
+                          ? "bg-gradient-sun text-sun-foreground shadow-glow"
+                          : "bg-muted text-muted-foreground",
+                    )}
+                  >
+                    {done ? "✓" : i + 1}
+                  </span>
+                  <span
+                    className={cn(
+                      "hidden truncate text-[11px] font-semibold uppercase tracking-wider sm:inline",
+                      current ? "text-foreground" : "text-muted-foreground",
+                    )}
+                  >
+                    {s.label}
+                  </span>
+                  {i < steps.length - 1 ? (
+                    <span
+                      className={cn(
+                        "h-px flex-1 rounded-full transition-colors",
+                        i < stepIndex ? "bg-forest/50" : "bg-border",
+                      )}
+                    />
+                  ) : null}
+                </li>
+              );
+            })}
+          </ol>
+        </nav>
       </header>
 
-      <nav aria-label="Progress" className="mx-auto max-w-5xl px-4">
-        <ol className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-wider">
-          {steps.map((s, i) => (
-            <li key={s.id} className="flex flex-1 items-center gap-2">
-              <span
-                className={cn(
-                  "h-1 flex-1 rounded-full transition-colors",
-                  i <= stepIndex ? "bg-sun" : "bg-border",
-                )}
-              />
-              <span className={cn("hidden sm:inline", i <= stepIndex ? "text-foreground" : "text-muted-foreground")}>
-                {s.label}
-              </span>
-            </li>
-          ))}
-        </ol>
-      </nav>
-
-      <main className="mx-auto max-w-5xl px-4 pb-28 pt-8">
+      <main className="mx-auto w-full max-w-5xl flex-1 px-4 pb-28 pt-10">
         {step === "country" ? (
-          <div className="space-y-8">
-            <div className="mx-auto max-w-xl text-center">
-              <h2 className="text-display text-3xl leading-tight sm:text-4xl">{t("tagline")}</h2>
-              <p className="mt-3 text-sm text-muted-foreground">{t("honesty")}</p>
+          <div className="animate-fade-up space-y-10">
+            <div className="mx-auto max-w-2xl text-center">
+              <span className="inline-flex items-center gap-2 rounded-full border border-sun/40 bg-sun/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-sun-foreground">
+                <Sun className="size-3.5 animate-sun-pulse" aria-hidden />
+                {t("heroEyebrow")}
+              </span>
+              <h2 className="text-display mt-5 text-4xl leading-[1.05] sm:text-5xl">{t("tagline")}</h2>
+              <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">{t("honesty")}</p>
             </div>
+
+            <ul className="grid gap-3 sm:grid-cols-3">
+              {[
+                { icon: Satellite, title: t("chip1Title"), body: t("chip1Body") },
+                { icon: Compass, title: t("chip2Title"), body: t("chip2Body") },
+                { icon: PiggyBank, title: t("chip3Title"), body: t("chip3Body") },
+              ].map(({ icon: Icon, title, body }) => (
+                <li key={title} className="surface-card hover-lift p-4">
+                  <span className="grid size-9 place-items-center rounded-lg bg-accent text-accent-foreground">
+                    <Icon className="size-4.5" aria-hidden />
+                  </span>
+                  <h3 className="mt-3 text-sm font-semibold">{title}</h3>
+                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{body}</p>
+                </li>
+              ))}
+            </ul>
+
             <CountryStep
               value={country}
               onSelect={(c) => {
@@ -175,6 +228,7 @@ function Advisor() {
             />
           </div>
         ) : null}
+
 
         {step === "location" && country ? (
           <div className="space-y-4">
