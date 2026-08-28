@@ -126,26 +126,26 @@ export type BuildingInsights = {
   center: LatLng;
   boundingBox?: Box | undefined;
   imageryQuality?: string | undefined;
-  imageryDate?: { year?: number; month?: number; day?: number } | undefined;
+  imageryDate?: { year?: number | undefined; month?: number | undefined; day?: number } | undefined;
   solarPotential?: {
-    maxArrayPanelsCount?: number;
-    maxArrayAreaMeters2?: number;
-    maxSunshineHoursPerYear?: number;
-    carbonOffsetFactorKgPerMwh?: number;
-    panelCapacityWatts?: number;
+    maxArrayPanelsCount?: number | undefined;
+    maxArrayAreaMeters2?: number | undefined;
+    maxSunshineHoursPerYear?: number | undefined;
+    carbonOffsetFactorKgPerMwh?: number | undefined;
+    panelCapacityWatts?: number | undefined;
     panelHeightMeters?: number | undefined;
     panelWidthMeters?: number | undefined;
-    wholeRoofStats?: { areaMeters2?: number; sunshineQuantiles?: number[] };
+    wholeRoofStats?: { areaMeters2?: number | undefined; sunshineQuantiles?: number[] } | undefined;
     roofSegmentStats?: Array<{
-      pitchDegrees: number;
+      pitchDegrees: number | undefined;
       azimuthDegrees: number;
       stats: { areaMeters2: number; sunshineQuantiles: number[] };
       center?: LatLng | undefined;
       boundingBox?: Box | undefined;
     }>;
-    solarPanelConfigs?: Array<{ panelsCount: number; yearlyEnergyDcKwh: number }>;
+    solarPanelConfigs?: Array<{ panelsCount: number | undefined; yearlyEnergyDcKwh: number }>;
     solarPanels?: Array<{
-      center: LatLng;
+      center: LatLng | undefined;
       orientation?: "LANDSCAPE" | "PORTRAIT" | undefined;
       yearlyEnergyDcKwh: number;
       segmentIndex?: number | undefined;
