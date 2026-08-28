@@ -146,7 +146,7 @@ TECHNICAL REQUIREMENTS
 
 This project was built with [Lovable](https://lovable.dev).
 
-**Live app**: https://sun-roof-guide.lovable.app
+**Live app**: https://thegreatsolartech.lovable.app
 
 ## Build with Lovable
 
