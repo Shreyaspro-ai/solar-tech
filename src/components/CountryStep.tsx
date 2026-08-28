@@ -5,12 +5,6 @@ import { COUNTRIES, type Country } from "@/lib/countries";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
-/** ISO 3166-1 alpha-2 -> regional indicator flag emoji. */
-function flag(code: string) {
-  if (code.length !== 2) return "🏳️";
-  return String.fromCodePoint(...[...code.toUpperCase()].map((c) => 0x1f1a5 + c.charCodeAt(0)));
-}
-
 export function CountryStep({
   value,
   onSelect,
@@ -61,8 +55,11 @@ export function CountryStep({
                   value?.code === c.code && "bg-accent font-medium",
                 )}
               >
-                <span className="text-lg leading-none" aria-hidden>
-                  {flag(c.code)}
+                <span
+                  className="grid size-7 shrink-0 place-items-center rounded-md bg-secondary text-[10px] font-bold tracking-wide text-secondary-foreground"
+                  aria-hidden
+                >
+                  {c.code}
                 </span>
                 <span className="min-w-0 flex-1 truncate">{c.name}</span>
                 <span className="shrink-0 text-[11px] font-medium text-muted-foreground">{c.currency}</span>
