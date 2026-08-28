@@ -279,15 +279,13 @@ function Advisor() {
                   { q: t("faq4Q"), a: t("faq4A") },
                 ].map((f, i) => (
                   <AccordionItem key={f.q} value={`faq-${i}`} className="border-b-0">
-                    <h3 className="m-0">
-                      <AccordionTrigger
+                    <AccordionTrigger
                         id={`faq-trigger-${i}`}
                         aria-controls={`faq-panel-${i}`}
                         className="py-4 text-start text-sm font-semibold on-media hover:no-underline focus-visible:rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sun"
                       >
-                        {f.q}
-                      </AccordionTrigger>
-                    </h3>
+                      {f.q}
+                    </AccordionTrigger>
                     <AccordionContent
                       id={`faq-panel-${i}`}
                       role="region"
