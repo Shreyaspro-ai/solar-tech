@@ -108,7 +108,12 @@ export function LocationStep({
                 <Input
                   id="postal"
                   value={postal}
-                  onChange={(e) => setPostal(e.target.value)}
+                  onChange={(e) => {
+                    setPostal(e.target.value);
+                    setPin(null);
+                    setPreview(null);
+                    setFormatError(null);
+                  }}
                   placeholder={country.postalExample ?? ""}
                   inputMode="text"
                   autoComplete="postal-code"
@@ -120,7 +125,18 @@ export function LocationStep({
               <p className="text-xs text-muted-foreground">
                 {t("pincodeHint", { example: country.postalExample ?? "—" })}
               </p>
-              {formatError ? <p className="text-sm text-destructive">{formatError}</p> : null}
+              {formatError ? (
+                <p className="text-sm text-destructive">
+                  {formatError}{" "}
+                  <button
+                    type="button"
+                    className="underline underline-offset-2"
+                    onClick={() => setTab("map")}
+                  >
+                    {t("tabMap")}
+                  </button>
+                </p>
+              ) : null}
             </form>
           ) : (
             <p className="text-center text-sm text-muted-foreground">
