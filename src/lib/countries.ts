@@ -16,7 +16,7 @@ export type Country = {
 
 // Postal patterns are deliberately permissive format checks (layer 1 only).
 export const COUNTRIES: Country[] = [
-  { code: "IN", name: "India", postal: /^[1-9]\d{5}$/, postalExample: "560001", tariff: 0.09, costPerKw: 620, currency: "INR", fx: 87, lang: "hi" },
+  { code: "IN", name: "India", postal: /^[1-9]\d{5}$/, postalExample: "560001", tariff: 0.09, costPerKw: 620, currency: "INR", fx: 96, lang: "hi" },
   { code: "US", name: "United States", postal: /^\d{5}(-\d{4})?$/, postalExample: "94303", tariff: 0.17, costPerKw: 2600, currency: "USD", fx: 1, lang: "en" },
   { code: "GB", name: "United Kingdom", postal: /^[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2}$/i, postalExample: "SW1A 1AA", tariff: 0.3, costPerKw: 1900, currency: "GBP", fx: 0.78, lang: "en" },
   { code: "DE", name: "Germany", postal: /^\d{5}$/, postalExample: "10115", tariff: 0.36, costPerKw: 1500, currency: "EUR", fx: 0.92, lang: "de" },

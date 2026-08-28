@@ -31,3 +31,53 @@ export function monthLabels(lang: string): string[] {
     return ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
   }
 }
+
+/**
+ * Local currency plus USD reference. Countries already on USD get one value.
+ * FX rates are indicative (e.g. 1 USD = 96 INR).
+ */
+export function dualMoney(usd: number, eco: Economics, lang: string, compact = false): string {
+  const local = money(usd, eco, lang, compact);
+  if (eco.currency === "USD" || eco.fx === 1) return local;
+  const inUsd = new Intl.NumberFormat(lang, {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+    notation: compact && Math.abs(usd) >= 100000 ? "compact" : "standard",
+  }).format(usd);
+  return `${local} (${inUsd})`;
+}
+
+/** Just the USD side, for secondary lines. */
+export function usdOnly(usd: number, lang: string, compact = false): string {
+  try {
+    return new Intl.NumberFormat(lang, {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 0,
+      notation: compact && Math.abs(usd) >= 100000 ? "compact" : "standard",
+    }).format(usd);
+  } catch {
+    return `$${Math.round(usd).toLocaleString()}`;
+  }
+}
+
+/** Small per-unit amounts (e.g. cost per kWh) need decimals on both sides. */
+export function dualSmallMoney(usd: number, eco: Economics, lang: string): string {
+  const fmt = (v: number, cur: string, digits: number) => {
+    try {
+      return new Intl.NumberFormat(lang, {
+        style: "currency",
+        currency: cur,
+        minimumFractionDigits: digits,
+        maximumFractionDigits: digits,
+      }).format(v);
+    } catch {
+      return `${v.toFixed(digits)} ${cur}`;
+    }
+  };
+  const local = eco.fx * usd;
+  const localStr = fmt(local, eco.currency, local < 10 ? 2 : 1);
+  if (eco.currency === "USD" || eco.fx === 1) return localStr;
+  return `${localStr} (${fmt(usd, "USD", 3)})`;
+}

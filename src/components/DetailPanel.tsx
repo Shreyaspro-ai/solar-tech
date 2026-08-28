@@ -1,10 +1,10 @@
 import { useMemo, useState } from "react";
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, Cell, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { useI18n } from "@/lib/i18n";
-import { money, monthLabels, num } from "@/lib/format";
+import { money, monthLabels, num, usdOnly } from "@/lib/format";
 import { compassLabel, evaluate, type Candidate, type Economics, type SiteData } from "@/lib/solar-model";
 import { ConfidenceBadge } from "./ConfidenceBadge";
 
@@ -31,6 +31,8 @@ export function DetailPanel({
 
   const months = monthLabels(lang);
   const chartData = live.monthlyKwh.map((v, i) => ({ month: months[i], kwh: v }));
+  const avgKwh = Math.round(live.monthlyKwh.reduce((a, b) => a + b, 0) / 12);
+  const peakKwh = Math.max(...live.monthlyKwh);
   const delta = live.annualKwh - base.annualKwh;
 
   const reset = () => {
@@ -52,6 +54,12 @@ export function DetailPanel({
           {money(live.annualSavingsUsd, economics, lang)} {t("perYear")} · {t("payback")} {live.paybackYears}{" "}
           {t("years")}
         </p>
+        {economics.currency !== "USD" ? (
+          <p className="text-xs text-muted-foreground">
+            {t("costUsdLabel")}: {usdOnly(live.lifetimeSavingsUsd, lang, true)} · {usdOnly(live.annualSavingsUsd, lang)}{" "}
+            {t("perYear")}
+          </p>
+        ) : null}
         <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
           <ConfidenceBadge quality={site.dataQuality} />
           <span className="rounded-full border border-border bg-background px-2.5 py-1 text-xs text-muted-foreground">
@@ -126,10 +134,40 @@ export function DetailPanel({
       </div>
 
       <div className="rounded-2xl border border-border bg-card p-5 shadow-soft">
-        <h3 className="mb-4 text-base font-semibold">{t("monthlyOutput")}</h3>
-        <div className="h-56 w-full">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <h3 className="text-base font-semibold">{t("monthlyOutput")}</h3>
+          <ul className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+            <li className="flex items-center gap-1.5">
+              <span className="legend-dot" style={{ background: "var(--chart-1)" }} aria-hidden />
+              {t("keyMonthly")}
+            </li>
+            <li className="flex items-center gap-1.5">
+              <span className="legend-dot" style={{ background: "var(--chart-4)" }} aria-hidden />
+              {t("keyBest")}
+            </li>
+            <li className="flex items-center gap-1.5">
+              <span
+                className="inline-block h-0 w-4 border-t-2 border-dashed"
+                style={{ borderColor: "var(--chart-2)" }}
+                aria-hidden
+              />
+              {t("keyAverage")} · {num(avgKwh, lang)} kWh
+            </li>
+          </ul>
+        </div>
+        <div className="h-60 w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={chartData} margin={{ top: 4, right: 4, left: -18, bottom: 0 }}>
+            <BarChart data={chartData} margin={{ top: 8, right: 4, left: -18, bottom: 0 }}>
+              <defs>
+                <linearGradient id="barMonthly" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="var(--chart-1)" stopOpacity={1} />
+                  <stop offset="100%" stopColor="var(--chart-1)" stopOpacity={0.45} />
+                </linearGradient>
+                <linearGradient id="barPeak" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="var(--chart-4)" stopOpacity={1} />
+                  <stop offset="100%" stopColor="var(--chart-4)" stopOpacity={0.5} />
+                </linearGradient>
+              </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
               <XAxis dataKey="month" tick={{ fontSize: 11 }} stroke="var(--muted-foreground)" interval={0} />
               <YAxis tick={{ fontSize: 11 }} stroke="var(--muted-foreground)" width={48} />
@@ -140,10 +178,22 @@ export function DetailPanel({
                   border: "1px solid var(--border)",
                   borderRadius: "0.75rem",
                   fontSize: "0.8rem",
+                  color: "var(--foreground)",
                 }}
-                formatter={(v: number) => [`${num(v, lang)} kWh`, t("annualOutput")]}
+                formatter={(v: number) => [`${num(v, lang)} kWh`, t("keyMonthly")]}
               />
-              <Bar dataKey="kwh" fill="var(--sun)" radius={[6, 6, 0, 0]} />
+              <ReferenceLine
+                y={avgKwh}
+                stroke="var(--chart-2)"
+                strokeDasharray="5 4"
+                strokeWidth={2}
+                ifOverflow="extendDomain"
+              />
+              <Bar dataKey="kwh" radius={[6, 6, 0, 0]}>
+                {chartData.map((d) => (
+                  <Cell key={d.month} fill={d.kwh === peakKwh ? "url(#barPeak)" : "url(#barMonthly)"} />
+                ))}
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>
