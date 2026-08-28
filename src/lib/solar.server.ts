@@ -124,31 +124,31 @@ type Box = { sw: LatLng; ne: LatLng };
 
 export type BuildingInsights = {
   center: LatLng;
-  boundingBox?: Box;
-  imageryQuality?: string;
-  imageryDate?: { year?: number; month?: number; day?: number };
+  boundingBox?: Box | undefined;
+  imageryQuality?: string | undefined;
+  imageryDate?: { year?: number; month?: number; day?: number } | undefined;
   solarPotential?: {
     maxArrayPanelsCount?: number;
     maxArrayAreaMeters2?: number;
     maxSunshineHoursPerYear?: number;
     carbonOffsetFactorKgPerMwh?: number;
     panelCapacityWatts?: number;
-    panelHeightMeters?: number;
-    panelWidthMeters?: number;
+    panelHeightMeters?: number | undefined;
+    panelWidthMeters?: number | undefined;
     wholeRoofStats?: { areaMeters2?: number; sunshineQuantiles?: number[] };
     roofSegmentStats?: Array<{
       pitchDegrees: number;
       azimuthDegrees: number;
       stats: { areaMeters2: number; sunshineQuantiles: number[] };
-      center?: LatLng;
-      boundingBox?: Box;
+      center?: LatLng | undefined;
+      boundingBox?: Box | undefined;
     }>;
     solarPanelConfigs?: Array<{ panelsCount: number; yearlyEnergyDcKwh: number }>;
     solarPanels?: Array<{
       center: LatLng;
-      orientation?: "LANDSCAPE" | "PORTRAIT";
+      orientation?: "LANDSCAPE" | "PORTRAIT" | undefined;
       yearlyEnergyDcKwh: number;
-      segmentIndex?: number;
+      segmentIndex?: number | undefined;
     }>;
   };
 };
