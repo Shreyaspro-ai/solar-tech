@@ -1,6 +1,4 @@
 import { Clapperboard, Contrast, Moon, Palette, Sun } from "lucide-react";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type _KeepContrast = typeof Contrast;
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
