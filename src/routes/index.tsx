@@ -145,7 +145,7 @@ function Advisor() {
       )}
     >
       <HeroVideo />
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[oklch(0.24_0.03_65/0.82)] text-white backdrop-blur-xl">
+      <header className="app-bar sticky top-0 z-40 border-b border-white/10 bg-[oklch(0.24_0.03_65/0.82)] text-white backdrop-blur-xl">
         <div className="mx-auto grid max-w-5xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-3">
           <button
             type="button"
@@ -406,7 +406,7 @@ function Advisor() {
         ) : null}
       </main>
 
-      <footer className="border-t border-white/10 bg-[oklch(0.24_0.03_65/0.55)] py-6 backdrop-blur-xl">
+      <footer className="app-bar border-t border-white/10 bg-[oklch(0.24_0.03_65/0.55)] py-6 backdrop-blur-xl">
         <div className="mx-auto grid max-w-5xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 text-xs text-white/65">
           <p className="min-w-0">{t("honesty")}</p>
           <p className="shrink-0 font-brand text-[11px] uppercase text-white/80">{t("neutralBadge")}</p>
