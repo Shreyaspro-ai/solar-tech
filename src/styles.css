@@ -531,3 +531,30 @@
   background-color: var(--color-card);
   border-color: var(--color-foreground);
 }
+
+/* Classic mode: remap hardcoded white-on-media utilities to theme colours */
+.classic-ui .text-white {
+  color: var(--color-foreground);
+}
+.classic-ui .text-white\/60,
+.classic-ui .placeholder\:text-white\/50::placeholder {
+  color: var(--color-muted-foreground);
+}
+.classic-ui .text-white\/50 {
+  color: var(--color-muted-foreground);
+}
+.classic-ui .bg-white\/5,
+.classic-ui .bg-white\/10 {
+  background-color: color-mix(in oklab, var(--color-foreground) 5%, transparent);
+}
+.classic-ui .hover\:bg-white\/10:hover,
+.classic-ui .bg-white\/15 {
+  background-color: color-mix(in oklab, var(--color-foreground) 10%, transparent);
+}
+.classic-ui .border-white\/10,
+.classic-ui .border-white\/20 {
+  border-color: var(--color-border);
+}
+.classic-ui .bg-white\/20.ring-1 {
+  background-color: color-mix(in oklab, var(--color-foreground) 12%, transparent);
+}
