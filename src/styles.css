@@ -461,47 +461,6 @@
   }
 }
 
-/* ---- High-contrast mode: readable over the background video ------------ */
-.hc .hero-video-el {
-  filter: saturate(0.55) brightness(0.5) contrast(1.05);
-}
-
-.hc .hero-video-scrim {
-  background-image: linear-gradient(
-    to bottom,
-    oklch(0.13 0.015 60 / 0.9) 0%,
-    oklch(0.11 0.012 60 / 0.94) 100%
-  );
-}
-
-.hc .surface-panel,
-.hc .surface-glass {
-  background-color: oklch(0.15 0.015 60 / 0.96);
-  background-image: none;
-  border-color: oklch(1 0 0 / 0.55);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-}
-
-.hc .on-media {
-  color: oklch(1 0 0);
-  text-shadow: none;
-}
-
-.hc .on-media-muted {
-  color: oklch(0.96 0.005 90);
-  text-shadow: none;
-}
-
-.hc.dark,
-.hc {
-  --ring: oklch(0.95 0.02 90);
-}
-
-.hc :focus-visible {
-  outline: 3px solid oklch(0.95 0.15 88);
-  outline-offset: 2px;
-}
 
 /* ---- Classic backdrop: the pre-video ambient colour design --------------- */
 .classic-ui .surface-panel {
@@ -526,11 +485,6 @@
   text-shadow: none;
 }
 
-.classic-ui.hc .surface-panel,
-.classic-ui.hc .surface-glass {
-  background-color: var(--color-card);
-  border-color: var(--color-foreground);
-}
 
 /* Classic mode: remap hardcoded white-on-media utilities to theme colours */
 .classic-ui .text-white {
