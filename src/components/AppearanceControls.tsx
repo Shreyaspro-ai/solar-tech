@@ -1,4 +1,4 @@
-import { Contrast, Moon, Palette, Sun } from "lucide-react";
+import { Clapperboard, Contrast, Moon, Palette, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -14,8 +14,10 @@ import { cn } from "@/lib/utils";
 
 export function AppearanceControls() {
   const { t } = useI18n();
-  const { theme, setTheme, intensity, setIntensity, colorBlind, setColorBlind, highContrast, setHighContrast } =
-    useAppearance();
+  const {
+    theme, setTheme, intensity, setIntensity, colorBlind, setColorBlind,
+    highContrast, setHighContrast, backdrop, setBackdrop,
+  } = useAppearance();
 
   return (
     <div className="flex items-center gap-1">
@@ -40,6 +42,19 @@ export function AppearanceControls() {
       >
         <Contrast className="size-4" aria-hidden />
       </Button>
+
+      <Button
+        variant="ghost"
+        size="icon"
+        className={cn("rounded-full", backdrop === "classic" && "bg-white/20 ring-1 ring-white/60")}
+        aria-label={backdrop === "cinematic" ? "Switch to classic design" : "Switch to cinematic video design"}
+        aria-pressed={backdrop === "classic"}
+        title={backdrop === "cinematic" ? "Classic design" : "Cinematic video design"}
+        onClick={() => setBackdrop(backdrop === "cinematic" ? "classic" : "cinematic")}
+      >
+        <Clapperboard className="size-4" aria-hidden />
+      </Button>
+
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
