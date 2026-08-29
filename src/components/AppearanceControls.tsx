@@ -1,4 +1,6 @@
 import { Clapperboard, Contrast, Moon, Palette, Sun } from "lucide-react";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+type _KeepContrast = typeof Contrast;
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -16,7 +18,7 @@ export function AppearanceControls() {
   const { t } = useI18n();
   const {
     theme, setTheme, intensity, setIntensity, colorBlind, setColorBlind,
-    highContrast, setHighContrast, backdrop, setBackdrop,
+    backdrop, setBackdrop,
   } = useAppearance();
 
   return (
@@ -29,18 +31,6 @@ export function AppearanceControls() {
         onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
       >
         {theme === "dark" ? <Sun className="size-4" aria-hidden /> : <Moon className="size-4" aria-hidden />}
-      </Button>
-
-      <Button
-        variant="ghost"
-        size="icon"
-        className={cn("rounded-full", highContrast && "bg-white/20 ring-1 ring-white/60")}
-        aria-label="High contrast"
-        aria-pressed={highContrast}
-        title="High contrast"
-        onClick={() => setHighContrast(!highContrast)}
-      >
-        <Contrast className="size-4" aria-hidden />
       </Button>
 
       <Button
