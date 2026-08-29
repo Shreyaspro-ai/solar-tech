@@ -502,3 +502,32 @@
   outline: 3px solid oklch(0.95 0.15 88);
   outline-offset: 2px;
 }
+
+/* ---- Classic backdrop: the pre-video ambient colour design --------------- */
+.classic-ui .surface-panel {
+  background-color: var(--color-card);
+  border-color: var(--color-border);
+  backdrop-filter: none;
+}
+
+.classic-ui .surface-glass {
+  background-color: color-mix(in oklab, var(--color-card) 85%, transparent);
+  border-color: var(--color-border);
+  box-shadow: var(--shadow-soft);
+}
+
+.classic-ui .on-media {
+  color: var(--color-foreground);
+  text-shadow: none;
+}
+
+.classic-ui .on-media-muted {
+  color: var(--color-muted-foreground);
+  text-shadow: none;
+}
+
+.classic-ui.hc .surface-panel,
+.classic-ui.hc .surface-glass {
+  background-color: var(--color-card);
+  border-color: var(--color-foreground);
+}
