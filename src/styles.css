@@ -502,3 +502,59 @@
   outline: 3px solid oklch(0.95 0.15 88);
   outline-offset: 2px;
 }
+
+/* ---- Classic backdrop: the pre-video ambient colour design --------------- */
+.classic-ui .surface-panel {
+  background-color: var(--color-card);
+  border-color: var(--color-border);
+  backdrop-filter: none;
+}
+
+.classic-ui .surface-glass {
+  background-color: color-mix(in oklab, var(--color-card) 85%, transparent);
+  border-color: var(--color-border);
+  box-shadow: var(--shadow-soft);
+}
+
+.classic-ui .on-media {
+  color: var(--color-foreground);
+  text-shadow: none;
+}
+
+.classic-ui .on-media-muted {
+  color: var(--color-muted-foreground);
+  text-shadow: none;
+}
+
+.classic-ui.hc .surface-panel,
+.classic-ui.hc .surface-glass {
+  background-color: var(--color-card);
+  border-color: var(--color-foreground);
+}
+
+/* Classic mode: remap hardcoded white-on-media utilities to theme colours */
+.classic-ui .text-white {
+  color: var(--color-foreground);
+}
+.classic-ui .text-white\/60,
+.classic-ui .placeholder\:text-white\/50::placeholder {
+  color: var(--color-muted-foreground);
+}
+.classic-ui .text-white\/50 {
+  color: var(--color-muted-foreground);
+}
+.classic-ui .bg-white\/5,
+.classic-ui .bg-white\/10 {
+  background-color: color-mix(in oklab, var(--color-foreground) 5%, transparent);
+}
+.classic-ui .hover\:bg-white\/10:hover,
+.classic-ui .bg-white\/15 {
+  background-color: color-mix(in oklab, var(--color-foreground) 10%, transparent);
+}
+.classic-ui .border-white\/10,
+.classic-ui .border-white\/20 {
+  border-color: var(--color-border);
+}
+.classic-ui .bg-white\/20.ring-1 {
+  background-color: color-mix(in oklab, var(--color-foreground) 12%, transparent);
+}
